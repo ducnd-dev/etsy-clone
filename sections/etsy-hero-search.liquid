@@ -1,0 +1,129 @@
+{% comment %}
+  Hero section with large search bar and featured images
+{% endcomment %}
+
+<section class="relative bg-cover bg-center py-20" {% if section.settings.hero_image %}style="background-image: url('{{ section.settings.hero_image | image_url: width: 1920 }}'); background-color: rgba(0, 0, 0, 0.4); background-blend-mode: overlay;"{% else %}style="background-color: #F8F8F8;"{% endif %}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="text-center">
+      <h1 class="text-4xl md:text-5xl font-extrabold {% if section.settings.hero_image %}text-white{% else %}text-etsy-dark{% endif %} sm:text-4xl mb-4">
+        {{ section.settings.heading }}
+      </h1>
+      <p class="mt-3 max-w-2xl mx-auto text-xl {% if section.settings.hero_image %}text-white text-opacity-90{% else %}text-gray-500{% endif %} sm:mt-4">
+        {{ section.settings.subheading }}
+      </p>
+      
+      <!-- Large hero search bar -->
+      <div class="mt-8 max-w-xl mx-auto">
+        <form action="/search" method="get" class="flex w-full">
+          <div class="relative w-full drop-shadow-lg">
+            <input type="text" 
+                  name="q" 
+                  placeholder="{{ section.settings.search_placeholder }}" 
+                  class="w-full pl-5 pr-24 py-4 border-2 border-white rounded-full focus:outline-none focus:ring-2 focus:ring-etsy-orange focus:border-transparent text-lg">
+            <button type="submit" class="absolute inset-y-0 right-0 px-6 flex items-center bg-etsy-orange text-white rounded-r-full hover:bg-opacity-90 transition-all duration-200">
+              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+              </svg>
+              <span class="ml-2 font-medium hidden sm:inline">Search</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Popular search terms -->
+    {% if section.settings.show_popular_searches %}
+      <div class="mt-6 text-center">
+        <p class="text-sm {% if section.settings.hero_image %}text-white{% else %}text-gray-500{% endif %}">Popular searches: 
+          {% for search in section.blocks %}
+            {% if search.type == 'popular_search' %}
+              <a href="/search?q={{ search.settings.search_term }}" class="inline-block mx-1 {% if section.settings.hero_image %}text-white hover:text-etsy-orange{% else %}text-etsy-orange hover:underline{% endif %} font-medium">{{ search.settings.search_term }}</a>
+            {% endif %}
+          {% endfor %}
+        </p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Etsy Hero Search",  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Find your perfect handmade treasure"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Discover unique items from independent creators"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder text",
+      "default": "Search for anything..."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_popular_searches",
+      "label": "Show popular searches",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "popular_search",
+      "name": "Popular Search Term",
+      "settings": [
+        {
+          "type": "text",
+          "id": "search_term",
+          "label": "Search term",
+          "default": "Wall art"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Etsy Hero Search",
+      "category": "Hero",
+      "blocks": [
+        {
+          "type": "popular_search",
+          "settings": {
+            "search_term": "Wall art"
+          }
+        },
+        {
+          "type": "popular_search",
+          "settings": {
+            "search_term": "Jewelry"
+          }
+        },
+        {
+          "type": "popular_search",
+          "settings": {
+            "search_term": "Home decor"
+          }
+        },
+        {
+          "type": "popular_search",
+          "settings": {
+            "search_term": "Gifts"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,124 @@
+// Newsletter section styles
+.newsletter {
+  padding: $spacer-5 0;
+  background-color: $gray-50;
+  
+  &__container {
+    @include flex-column;
+    text-align: center;
+    
+    @include md {
+      flex-direction: row;
+      text-align: left;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+  
+  &__content {
+    margin-bottom: $spacer-4;
+    
+    @include md {
+      margin-bottom: 0;
+      padding-right: $spacer-5;
+      flex: 1;
+    }
+  }
+  
+  &__title {
+    font-size: 1.5rem;
+    font-weight: $font-weight-bold;
+    margin-bottom: $spacer-2;
+    
+    @include md {
+      font-size: 1.75rem;
+    }
+  }
+  
+  &__text {
+    color: $gray-600;
+    margin-bottom: $spacer-3;
+    max-width: 36rem;
+    
+    @include md {
+      margin: 0 auto $spacer-3 0;
+    }
+  }
+  
+  &__form {
+    @include md {
+      flex: 1;
+      max-width: 28rem;
+    }
+    
+    form {
+      display: flex;
+      
+      input {
+        flex: 1;
+        padding: $spacer-3;
+        border: 1px solid $gray-300;
+        border-right: none;
+        border-radius: $border-radius 0 0 $border-radius;
+        
+        &:focus {
+          outline: none;
+          border-color: $etsy-orange;
+          box-shadow: 0 0 0 2px rgba($etsy-orange, 0.2);
+        }
+      }
+      
+      button {
+        background-color: $etsy-orange;
+        color: $white;
+        border: none;
+        padding: 0 $spacer-4;
+        border-radius: 0 $border-radius $border-radius 0;
+        font-weight: $font-weight-medium;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+          background-color: $etsy-orange-dark;
+        }
+      }
+    }
+  }
+  
+  &__privacy {
+    margin-top: $spacer-2;
+    font-size: 0.75rem;
+    color: $gray-600;
+  }
+  
+  // Alternative version with image background
+  &--image {
+    position: relative;
+    background-color: transparent;
+    color: $white;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(rgba($etsy-dark, 0.7), rgba($etsy-dark, 0.7)), url('../img/newsletter-bg.jpg') center/cover no-repeat;
+      z-index: 0;
+    }
+    
+    .newsletter__container {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .newsletter__text {
+      color: rgba($white, 0.8);
+    }
+    
+    .newsletter__privacy {
+      color: rgba($white, 0.6);
+    }
+  }
+}

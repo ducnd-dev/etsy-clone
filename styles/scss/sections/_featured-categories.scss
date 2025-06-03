@@ -1,0 +1,113 @@
+// Featured categories section styles
+.featured-categories {
+  padding: $spacer-5 0;
+  
+  &__title {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: $font-weight-bold;
+    margin-bottom: $spacer-4;
+    
+    @include md {
+      font-size: 2rem;
+    }
+  }
+  
+  &__subtitle {
+    text-align: center;
+    color: $gray-600;
+    max-width: 36rem;
+    margin: 0 auto $spacer-5;
+  }
+  
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacer-4;
+    
+    @include md {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @include lg {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+  
+  &__item {
+    text-align: center;
+    transition: transform 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-4px);
+      
+      .featured-categories__image {
+        box-shadow: $shadow-md;
+      }
+      
+      .featured-categories__name {
+        color: $etsy-orange;
+      }
+    }
+  }
+  
+  &__image {
+    position: relative;
+    border-radius: $border-radius-full;
+    overflow: hidden;
+    padding-bottom: 100%;
+    margin-bottom: $spacer-3;
+    background-color: $gray-100;
+    transition: box-shadow 0.2s ease;
+    
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  
+  &__name {
+    font-weight: $font-weight-medium;
+    transition: color 0.2s ease;
+  }
+  
+  // Alternative layout with featured row
+  &--featured {
+    .featured-categories__grid {
+      grid-template-columns: repeat(2, 1fr);
+      
+      @include md {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+      }
+      
+      @include lg {
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(2, auto);
+      }
+    }
+    
+    .featured-categories__item--main {
+      @include md {
+        grid-column: span 3;
+        grid-row: span 2;
+      }
+      
+      @include lg {
+        grid-column: span 2;
+      }
+      
+      .featured-categories__image {
+        border-radius: $border-radius-lg;
+      }
+      
+      .featured-categories__name {
+        font-size: 1.25rem;
+      }
+    }
+  }
+}

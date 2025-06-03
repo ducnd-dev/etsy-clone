@@ -1,0 +1,28 @@
+{% comment %}
+  Quick add to cart button for product cards
+  Usage: {% render 'etsy-quick-add-button', product: product %}
+{% endcomment %}
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<div class="etsy-quick-add-button opacity-0 group-hover:opacity-100 transition-opacity duration-200 absolute bottom-0 left-0 right-0 p-3 bg-white bg-opacity-90">
+  {% if product.available %}
+    {% if product.has_only_default_variant %}
+      <form action="/cart/add" method="post" class="quick-add-form">
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="w-full py-2 px-3 bg-etsy-orange text-white text-sm font-medium rounded-full hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-etsy-orange">
+          Add to cart
+        </button>
+      </form>
+    {% else %}
+      <a href="{{ product.url }}" class="block w-full py-2 px-3 bg-etsy-orange text-white text-sm font-medium text-center rounded-full hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-etsy-orange">
+        Choose options
+      </a>
+    {% endif %}
+  {% else %}
+    <button disabled class="w-full py-2 px-3 bg-gray-300 text-gray-500 text-sm font-medium rounded-full cursor-not-allowed">
+      Sold out
+    </button>
+  {% endif %}
+</div>

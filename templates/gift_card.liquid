@@ -1,0 +1,179 @@
+{% comment %}
+  Gift Card Template
+  Displays purchased gift card with code and instructions
+{% endcomment %}
+
+<div class="bg-gray-50 min-h-screen py-8">
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    {% comment %} Gift Card Header {% endcomment %}
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Gift Card</h1>
+      <p class="mt-2 text-lg text-gray-600">Your gift card is ready to use!</p>
+    </div>
+
+    {% comment %} Gift Card Display {% endcomment %}
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
+      
+      {% comment %} Gift Card Design {% endcomment %}
+      <div class="bg-gradient-to-r from-etsy-orange to-orange-400 p-8 text-white">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-2xl font-bold">{{ shop.name }}</h2>
+            <p class="text-orange-100">Gift Card</p>
+          </div>
+          <div class="text-right">
+            <p class="text-3xl font-bold">{{ gift_card.balance | money }}</p>
+            {% if gift_card.currency != shop.currency %}
+              <p class="text-sm text-orange-100">{{ gift_card.balance | money_with_currency }}</p>
+            {% endif %}
+          </div>
+        </div>
+        
+        {% comment %} Gift Card Code {% endcomment %}
+        <div class="bg-white bg-opacity-20 rounded-lg p-4">
+          <p class="text-sm text-orange-100 mb-2">Gift Card Code</p>
+          <div class="flex items-center justify-between">
+            <code class="text-xl font-mono font-bold tracking-wider">{{ gift_card.code }}</code>
+            <button onclick="copyGiftCardCode()" 
+                    class="ml-4 px-3 py-1 bg-white bg-opacity-20 rounded text-sm hover:bg-opacity-30 transition-colors">
+              Copy
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} Gift Card Details {% endcomment %}
+      <div class="p-6">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          
+          {% comment %} Gift Card Info {% endcomment %}
+          <div>
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Gift Card Details</h3>
+            <dl class="space-y-3 text-sm">
+              <div>
+                <dt class="font-medium text-gray-700">Balance</dt>
+                <dd class="text-gray-900">{{ gift_card.balance | money }}</dd>
+              </div>
+              <div>
+                <dt class="font-medium text-gray-700">Code</dt>
+                <dd class="text-gray-900 font-mono">{{ gift_card.code }}</dd>
+              </div>
+              {% if gift_card.expires_on %}
+                <div>
+                  <dt class="font-medium text-gray-700">Expires</dt>
+                  <dd class="text-gray-900">{{ gift_card.expires_on | date: '%B %d, %Y' }}</dd>
+                </div>
+              {% else %}
+                <div>
+                  <dt class="font-medium text-gray-700">Expires</dt>
+                  <dd class="text-gray-900">Never</dd>
+                </div>
+              {% endif %}
+              <div>
+                <dt class="font-medium text-gray-700">Initial Value</dt>
+                <dd class="text-gray-900">{{ gift_card.initial_value | money }}</dd>
+              </div>
+            </dl>
+          </div>
+
+          {% comment %} Usage Instructions {% endcomment %}
+          <div>
+            <h3 class="text-lg font-medium text-gray-900 mb-4">How to Use</h3>
+            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-600">
+              <li>Shop for your favorite items</li>
+              <li>Add items to your cart</li>
+              <li>At checkout, enter the gift card code</li>
+              <li>The gift card amount will be applied to your order</li>
+              <li>Pay any remaining balance with another payment method</li>
+            </ol>
+          </div>
+        </div>
+
+        {% comment %} Action Buttons {% endcomment %}
+        <div class="border-t border-gray-200 pt-6">
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="{{ routes.root_url }}" 
+               class="flex-1 inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-etsy-orange hover:bg-etsy-orange-dark transition-colors">
+              Start Shopping
+            </a>
+            <button onclick="printGiftCard()" 
+                    class="flex-1 inline-flex justify-center items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+              </svg>
+              Print Gift Card
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    {% comment %} Additional Information {% endcomment %}
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-blue-800">Important Information</h3>
+          <div class="mt-2 text-sm text-blue-700">
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Gift cards can be used for multiple purchases until the balance is depleted</li>
+              <li>Gift cards cannot be redeemed for cash or gift cards</li>
+              <li>Gift cards are not refundable or exchangeable</li>
+              <li>Keep your gift card code safe and do not share it with others</li>
+              {% if gift_card.expires_on %}
+                <li>This gift card expires on {{ gift_card.expires_on | date: '%B %d, %Y' }}</li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% comment %} JavaScript for interactions {% endcomment %}
+<script>
+  function copyGiftCardCode() {
+    const code = '{{ gift_card.code }}';
+    navigator.clipboard.writeText(code).then(function() {
+      // Show success message
+      const button = event.target;
+      const originalText = button.textContent;
+      button.textContent = 'Copied!';
+      button.classList.add('bg-green-500', 'text-white');
+      setTimeout(() => {
+        button.textContent = originalText;
+        button.classList.remove('bg-green-500', 'text-white');
+      }, 2000);
+    });
+  }
+
+  function printGiftCard() {
+    window.print();
+  }
+</script>
+
+{% comment %} Print styles {% endcomment %}
+<style>
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    .gift-card-print, .gift-card-print * {
+      visibility: visible;
+    }
+    .gift-card-print {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
+</style>

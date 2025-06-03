@@ -1,0 +1,167 @@
+// Hero section styles
+.hero {
+  position: relative;
+  background-color: $gray-100;
+  overflow: hidden;
+  padding: $spacer-5 0;
+  
+  @include md {
+    padding: ($spacer-5 * 1.5) 0;
+  }
+  
+  &__container {
+    position: relative;
+    z-index: 1;
+  }
+  
+  &__content {
+    text-align: center;
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 0 $spacer-4;
+  }
+  
+  &__title {
+    font-size: 2rem;
+    font-weight: $font-weight-bold;
+    margin-bottom: $spacer-3;
+    color: $etsy-dark;
+    
+    @include md {
+      font-size: 3rem;
+    }
+  }
+  
+  &__subtitle {
+    font-size: 1.25rem;
+    color: $gray-700;
+    margin-bottom: $spacer-4;
+    
+    @include md {
+      font-size: 1.5rem;
+    }
+  }
+  
+  &__search {
+    max-width: 36rem;
+    margin: 0 auto;
+    
+    form {
+      display: flex;
+      
+      input {
+        flex: 1;
+        padding: $spacer-3;
+        border: 2px solid $etsy-orange;
+        border-right: none;
+        border-radius: $border-radius 0 0 $border-radius;
+        font-size: 1.125rem;
+        
+        &:focus {
+          outline: none;
+          border-color: $etsy-orange;
+          box-shadow: 0 0 0 2px rgba($etsy-orange, 0.2);
+        }
+      }
+      
+      button {
+        background-color: $etsy-orange;
+        color: $white;
+        border: none;
+        padding: 0 $spacer-4;
+        border-radius: 0 $border-radius $border-radius 0;
+        font-weight: $font-weight-medium;
+        font-size: 1.125rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+          background-color: $etsy-orange-dark;
+        }
+        
+        svg {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+      }
+    }
+  }
+  
+  &__popular {
+    margin-top: $spacer-4;
+    color: $gray-600;
+    
+    span {
+      margin-right: $spacer-2;
+      font-size: 0.9rem;
+    }
+    
+    a {
+      display: inline-block;
+      background-color: $white;
+      padding: 0.25rem 0.75rem;
+      border-radius: $border-radius-full;
+      margin: 0.25rem;
+      font-size: 0.9rem;
+      color: $etsy-dark;
+      border: 1px solid $gray-200;
+      
+      &:hover {
+        background-color: $etsy-orange;
+        color: $white;
+        border-color: $etsy-orange;
+      }
+    }
+  }
+  
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba($white, 0.7);
+    }
+  }
+  
+  // Alternative version with illustration
+  &--illustrated {
+    .hero__content {
+      text-align: left;
+      margin: 0;
+      
+      @include lg {
+        max-width: 50%;
+      }
+    }
+    
+    .hero__illustration {
+      display: none;
+      
+      @include lg {
+        display: block;
+        position: absolute;
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40%;
+        max-width: 30rem;
+      }
+    }
+  }
+}

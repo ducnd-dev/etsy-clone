@@ -1,0 +1,107 @@
+<!-- Empty Cart Template - Etsy Style -->
+<div class="max-w-4xl mx-auto px-4 py-12 text-center">
+  <div class="empty-cart-container">
+    <!-- Empty Cart Icon -->
+    <div class="mb-8">
+      <svg class="mx-auto w-24 h-24 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v5a2 2 0 01-2 2H9a2 2 0 01-2-2v-5m6-5V6a2 2 0 00-2-2H9a2 2 0 00-2 2v2"></path>
+      </svg>
+    </div>
+
+    <!-- Empty Cart Message -->
+    <h1 class="text-3xl font-semibold text-gray-900 mb-4">Your cart is empty</h1>
+    <p class="text-lg text-gray-600 mb-8 max-w-md mx-auto">
+      When you add something to your cart, it will appear here. Ready to get started?
+    </p>
+
+    <!-- Continue Shopping Button -->
+    <div class="mb-12">
+      <a href="{{ routes.all_products_collection_url }}" 
+         class="inline-flex items-center px-8 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition-colors duration-300 text-lg font-medium">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
+        </svg>
+        Continue shopping
+      </a>
+    </div>
+
+    <!-- Featured Collections or Popular Items -->
+    <div class="mt-16">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-8">Popular items</h2>
+      
+      {% assign featured_collection = collections['featured'] | default: collections.all %}
+      {% if featured_collection.products.size > 0 %}
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {% for product in featured_collection.products limit: 4 %}
+            <div class="group">
+              <a href="{{ product.url }}" class="block">
+                <div class="aspect-square rounded-lg overflow-hidden bg-gray-100 mb-3">
+                  {% if product.featured_image %}
+                    <img src="{{ product.featured_image | image_url: width: 300 }}" 
+                         alt="{{ product.featured_image.alt | escape }}"
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                  {% else %}
+                    <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                      <svg class="w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                      </svg>
+                    </div>
+                  {% endif %}
+                </div>
+                
+                <h3 class="font-medium text-gray-900 text-sm group-hover:text-orange-600 transition-colors">
+                  {{ product.title | truncate: 30 }}
+                </h3>
+                
+                <div class="mt-1">
+                  {% if product.compare_at_price > product.price %}
+                    <span class="text-gray-500 line-through text-sm">{{ product.compare_at_price | money }}</span>
+                    <span class="text-black font-semibold ml-2">{{ product.price | money }}</span>
+                  {% else %}
+                    <span class="text-black font-semibold">{{ product.price | money }}</span>
+                  {% endif %}
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Sign up for updates -->
+    <div class="mt-16 p-8 bg-orange-50 rounded-2xl">
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Never miss new arrivals</h3>
+      <p class="text-gray-600 mb-6">Sign up for our newsletter and be the first to know about new products and special offers.</p>
+      
+      <form action="{{ routes.newsletter_url }}" method="post" class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+        <input type="email" 
+               name="contact[email]" 
+               placeholder="Enter your email"
+               required
+               class="flex-1 px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500">
+        <button type="submit" 
+                class="px-6 py-3 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors font-medium">
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+  .empty-cart-container {
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

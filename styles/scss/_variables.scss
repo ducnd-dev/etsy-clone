@@ -1,0 +1,63 @@
+// Variables for Etsy Theme with Tailwind v4 integration
+// Colors - Using CSS variables to integrate with Tailwind theme
+$etsy-orange: var(--etsy-orange, #F1641E);
+$etsy-orange-dark: var(--etsy-orange-dark, #d44c0d);
+$etsy-dark: var(--etsy-dark, #222222);
+$etsy-light-grey: var(--etsy-light-grey, #F8F8F8);
+
+$white: var(--tw-color-white, #ffffff);
+$black: var(--tw-color-black, #000000);
+
+// Using Tailwind's slate color palette for grays
+$gray-50: var(--tw-color-slate-50, #f9fafb);
+$gray-100: var(--tw-color-slate-100, #f3f4f6);
+$gray-200: var(--tw-color-slate-200, #e5e7eb);
+$gray-300: var(--tw-color-slate-300, #d1d5db);
+$gray-400: var(--tw-color-slate-400, #9ca3af);
+$gray-500: var(--tw-color-slate-500, #6b7280);
+$gray-600: var(--tw-color-slate-600, #4b5563);
+$gray-700: var(--tw-color-slate-700, #374151);
+$gray-800: var(--tw-color-slate-800, #1f2937);
+$gray-900: var(--tw-color-slate-900, #111827);
+
+// Typography - Aligned with Tailwind v4
+$font-family-base: var(--font-sans, 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+$font-size-base: var(--font-size-base, 1rem);
+$font-weight-normal: var(--font-weight-normal, 400);
+$font-weight-medium: var(--font-weight-medium, 500);
+$font-weight-semibold: var(--font-weight-semibold, 600);
+$font-weight-bold: var(--font-weight-bold, 700);
+
+// Spacing
+$spacer: 1rem;
+$spacer-1: $spacer * 0.25; // 0.25rem
+$spacer-2: $spacer * 0.5;  // 0.5rem
+$spacer-3: $spacer;        // 1rem
+$spacer-4: $spacer * 1.5;  // 1.5rem
+$spacer-5: $spacer * 3;    // 3rem
+
+// Borders
+$border-radius: 0.25rem;
+$border-radius-sm: 0.2rem;
+$border-radius-lg: 0.5rem;
+$border-radius-xl: 1rem;
+$border-radius-full: 9999px;
+
+// Shadows
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+// Transitions
+$transition-base: all 0.2s ease-in-out;
+$transition-fast: all 0.15s ease-in-out;
+$transition-slow: all 0.3s ease-in-out;
+
+// Breakpoints (matches Tailwind defaults)
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;

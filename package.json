@@ -1,0 +1,26 @@
+{
+  "name": "etsy-clone",
+  "version": "1.0.0",
+  "description": "A custom Shopify theme that replicates the user experience and visual layout of Etsy, focusing on product discovery and visual browsing.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "sass": "sass --style=compressed styles/scss/main.scss:assets/theme.css",
+    "sass:watch": "sass --watch styles/scss/main.scss:assets/theme.css",
+    "tailwind:build": "npx tailwindcss --input ./styles/css/main-tailwind.css --output ./assets/theme-tailwind.css --minify",
+    "tailwind:watch": "npx tailwindcss --input ./styles/css/main-tailwind.css --output ./assets/theme-tailwind.css --watch",
+    "build": "npm run sass && npm run tailwind:build",
+    "dev": "concurrently \"npm run sass:watch\" \"npm run tailwind:watch\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.8",
+    "autoprefixer": "^10.4.21",
+    "concurrently": "^9.1.2",
+    "postcss": "^8.5.4",
+    "sass": "^1.89.1",
+    "tailwindcss": "^4.1.8"
+  }
+}

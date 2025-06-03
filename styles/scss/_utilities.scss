@@ -1,0 +1,40 @@
+// Custom utility styles for Etsy theme
+// Only includes utilities not covered by Tailwind CSS
+
+// Etsy-specific color utilities
+.text-etsy-orange { color: $etsy-orange; }
+.text-etsy-dark { color: $etsy-dark; }
+.bg-etsy-orange { background-color: $etsy-orange; }
+.bg-etsy-light-grey { background-color: $etsy-light-grey; }
+
+// Custom scrollbar utility class that uses the mixin
+.custom-scrollbar {
+  @include custom-scrollbar();
+}
+
+// Filter pill - from your existing CSS
+.filter-pill {
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+// Filters dropdown scrollbar - from your existing CSS
+.filters-dropdown {
+  @include custom-scrollbar(8px, $gray-100, $gray-500, $etsy-orange);
+}
+
+// Group hover utilities - from your existing CSS
+.group {
+  &:hover {
+    .group-hover-opacity-75 {
+      opacity: 0.75;
+    }
+    
+    .group-hover-scale-105 {
+      transform: scale(1.05);
+    }
+  }
+}

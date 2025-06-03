@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="{{ shop.locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#F1641E">
+  <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>
+    {{ page_title }}
+    {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+    {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+    {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  </title>
+    <!-- Tailwind CSS v4 Integration -->
+  {{ 'theme-tailwind.css' | asset_url | stylesheet_tag }}
+  <!-- Custom SCSS Styles -->
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+  
+  <!-- Theme JavaScript -->
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  
+  {{ content_for_header }}
+</head>
+
+<body class="font-sans text-etsy-dark bg-white">
+  <!-- Skip to content link for accessibility -->
+  <a class="sr-only focus:not-sr-only focus:absolute focus:p-4 focus:bg-white focus:text-etsy-orange focus:z-50" href="#MainContent">
+    Skip to content
+  </a>
+
+  {% section 'etsy-header' %}
+
+  <main role="main" id="MainContent" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    {{ content_for_layout }}
+  </main>
+  
+  {% section 'etsy-footer' %}
+  
+  <!-- Drawers -->
+  {% render 'etsy-cart-drawer' %}
+  {% render 'etsy-mobile-menu' %}
+  
+  <!-- Notification container for toast messages -->
+  <div id="toast-container" class="fixed top-4 right-4 z-50"></div>
+</body>
+</html>

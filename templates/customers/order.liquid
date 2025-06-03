@@ -1,0 +1,267 @@
+<!-- Customer Order Details Template - Etsy Style -->
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <!-- Breadcrumb -->
+  <nav class="mb-6">
+    <ol class="flex items-center space-x-2 text-sm">
+      <li><a href="{{ routes.account_url }}" class="text-gray-600 hover:text-orange-600">Your account</a></li>
+      <li class="text-gray-400">/</li>
+      <li class="text-gray-900 font-medium">Order #{{ order.order_number }}</li>
+    </ol>
+  </nav>
+
+  <!-- Order Header -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+      <div>
+        <h1 class="text-2xl font-semibold text-gray-900 mb-2">Order #{{ order.order_number }}</h1>
+        <p class="text-gray-600">
+          Placed on {{ order.created_at | date: "%B %d, %Y" }} at {{ order.created_at | date: "%I:%M %p" }}
+        </p>
+      </div>
+      
+      <div class="mt-4 md:mt-0">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+          {% case order.fulfillment_status %}
+            {% when 'fulfilled' %}
+              bg-green-100 text-green-800
+            {% when 'partial' %}
+              bg-yellow-100 text-yellow-800
+            {% else %}
+              bg-gray-100 text-gray-800
+          {% endcase %}">
+          {% if order.fulfillment_status == 'fulfilled' %}
+            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            Delivered
+          {% elsif order.fulfillment_status == 'partial' %}
+            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Partially shipped
+          {% else %}
+            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+            </svg>
+            {{ order.fulfillment_status | default: 'Processing' | capitalize }}
+          {% endif %}
+        </span>
+      </div>
+    </div>
+
+    <!-- Order Summary Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-xl">
+      <div class="text-center">
+        <div class="text-sm text-gray-600">Items</div>
+        <div class="text-lg font-semibold text-gray-900">{{ order.line_items.size }}</div>
+      </div>
+      <div class="text-center">
+        <div class="text-sm text-gray-600">Total</div>
+        <div class="text-lg font-semibold text-gray-900">{{ order.total_price | money }}</div>
+      </div>
+      <div class="text-center">
+        <div class="text-sm text-gray-600">Payment</div>
+        <div class="text-lg font-semibold text-green-600">
+          {{ order.financial_status | replace: '_', ' ' | capitalize }}
+        </div>
+      </div>
+      <div class="text-center">
+        <div class="text-sm text-gray-600">Delivery</div>
+        <div class="text-lg font-semibold text-gray-900">
+          {% if order.fulfillment_status == 'fulfilled' %}
+            Delivered
+          {% else %}
+            Pending
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-6">
+    <!-- Order Items -->
+    <div class="lg:col-span-2">
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Order items</h2>
+        
+        <div class="space-y-4">
+          {% for line_item in order.line_items %}
+            <div class="flex items-start space-x-4 p-4 border border-gray-100 rounded-xl hover:bg-gray-50 transition-colors">
+              <!-- Product Image -->
+              <div class="w-16 h-16 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                {% if line_item.image %}
+                  <img src="{{ line_item.image | image_url: width: 80 }}" 
+                       alt="{{ line_item.title | escape }}"
+                       class="w-full h-full object-cover">
+                {% else %}
+                  <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                    </svg>
+                  </div>
+                {% endif %}
+              </div>
+
+              <!-- Product Details -->
+              <div class="flex-1 min-w-0">
+                <h3 class="font-medium text-gray-900 truncate">{{ line_item.title }}</h3>
+                
+                {% if line_item.variant.title != 'Default Title' %}
+                  <p class="text-sm text-gray-600 mt-1">{{ line_item.variant.title }}</p>
+                {% endif %}
+                
+                {% if line_item.selling_plan_allocation %}
+                  <p class="text-sm text-gray-600 mt-1">{{ line_item.selling_plan_allocation.selling_plan.name }}</p>
+                {% endif %}
+
+                <div class="flex items-center justify-between mt-2">
+                  <span class="text-sm text-gray-600">Qty: {{ line_item.quantity }}</span>
+                  <div class="text-right">
+                    {% if line_item.original_line_price != line_item.final_line_price %}
+                      <span class="text-sm text-gray-500 line-through">{{ line_item.original_line_price | money }}</span>
+                      <span class="text-sm font-semibold text-red-600 ml-2">{{ line_item.final_line_price | money }}</span>
+                    {% else %}
+                      <span class="text-sm font-semibold text-gray-900">{{ line_item.final_line_price | money }}</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Tracking Information -->
+        {% if order.fulfillment_status != blank %}
+          <div class="mt-6 p-4 bg-blue-50 rounded-xl">
+            <h3 class="font-medium text-blue-900 mb-2">Tracking information</h3>
+            {% for fulfillment in order.fulfillments %}
+              {% if fulfillment.tracking_number %}
+                <div class="flex items-center justify-between">
+                  <span class="text-blue-800">{{ fulfillment.tracking_company }}</span>
+                  <a href="{{ fulfillment.tracking_url }}" target="_blank" 
+                     class="text-blue-600 hover:text-blue-800 font-medium">
+                    {{ fulfillment.tracking_number }}
+                  </a>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Order Summary & Details -->
+    <div class="space-y-6">
+      <!-- Order Total -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Order summary</h2>
+        
+        <div class="space-y-3">
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-600">Subtotal</span>
+            <span class="text-gray-900">{{ order.line_items_subtotal_price | money }}</span>
+          </div>
+          
+          {% for discount in order.discounts %}
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Discount ({{ discount.code }})</span>
+              <span class="text-green-600">-{{ discount.amount | money }}</span>
+            </div>
+          {% endfor %}
+          
+          {% if order.shipping_price > 0 %}
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Shipping</span>
+              <span class="text-gray-900">{{ order.shipping_price | money }}</span>
+            </div>
+          {% endif %}
+          
+          {% if order.tax_price > 0 %}
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-600">Tax</span>
+              <span class="text-gray-900">{{ order.tax_price | money }}</span>
+            </div>
+          {% endif %}
+          
+          <div class="border-t pt-3">
+            <div class="flex justify-between font-semibold text-lg">
+              <span class="text-gray-900">Total</span>
+              <span class="text-gray-900">{{ order.total_price | money }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shipping Address -->
+      {% if order.shipping_address %}
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Shipping address</h2>
+          <div class="text-sm text-gray-600 space-y-1">
+            <div class="font-medium text-gray-900">{{ order.shipping_address.name }}</div>
+            <div>{{ order.shipping_address.address1 }}</div>
+            {% if order.shipping_address.address2 != blank %}
+              <div>{{ order.shipping_address.address2 }}</div>
+            {% endif %}
+            <div>{{ order.shipping_address.city }}, {{ order.shipping_address.province }} {{ order.shipping_address.zip }}</div>
+            <div>{{ order.shipping_address.country }}</div>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Billing Address -->
+      {% if order.billing_address %}
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Billing address</h2>
+          <div class="text-sm text-gray-600 space-y-1">
+            <div class="font-medium text-gray-900">{{ order.billing_address.name }}</div>
+            <div>{{ order.billing_address.address1 }}</div>
+            {% if order.billing_address.address2 != blank %}
+              <div>{{ order.billing_address.address2 }}</div>
+            {% endif %}
+            <div>{{ order.billing_address.city }}, {{ order.billing_address.province }} {{ order.billing_address.zip }}</div>
+            <div>{{ order.billing_address.country }}</div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-between">
+    <a href="{{ routes.account_url }}" 
+       class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-50 transition-colors">
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
+      </svg>
+      Back to orders
+    </a>
+    
+    <div class="flex flex-col sm:flex-row gap-3">
+      {% if order.customer_url %}
+        <a href="{{ order.customer_url }}" 
+           class="inline-flex items-center justify-center px-6 py-3 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+          </svg>
+          Share order
+        </a>
+      {% endif %}
+      
+      <button onclick="window.print()" 
+              class="inline-flex items-center justify-center px-6 py-3 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+        </svg>
+        Print receipt
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  @media print {
+    .no-print {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,158 @@
+{% comment %}
+  Etsy-style collection page
+{% endcomment %}
+
+{% paginate collection.products by 24 %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Collection header -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-etsy-dark">{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="mt-4 text-gray-500">{{ collection.description }}</div>
+    {% endif %}
+  </div>
+  
+  <!-- Collection filters and sorting -->
+  <div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-200 pb-4">
+    <!-- Filter buttons -->
+    <div class="flex flex-wrap gap-2 mb-4 md:mb-0">
+      <button class="px-4 py-2 rounded-full text-sm font-medium bg-etsy-orange text-white hover:bg-opacity-90">
+        All Items ({{ collection.products_count }})
+      </button>
+      
+      <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
+        Bestsellers
+      </button>
+      
+      <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
+        New Arrivals
+      </button>
+      
+      <!-- Filter dropdown -->
+      <div class="relative inline-block text-left">
+        <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center">
+          <span>Filter</span>
+          <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Sort dropdown -->
+    <div class="relative inline-block text-left">
+      <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center">
+        <span>Sort by: Featured</span>
+        <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Product grid -->
+  <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
+    {% for product in collection.products %}
+      <div class="group">
+        <div class="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden bg-gray-100">
+          <a href="{{ product.url }}">            {% if product.featured_image != blank %}
+              <img 
+                src="{{ product.featured_image | image_url: width: 350 }}" 
+                alt="{{ product.featured_image.alt | escape }}" 
+                width="350" height="262"
+                class="w-full h-full object-center object-cover group-hover:opacity-75"
+                loading="lazy">
+            {% else %}
+              <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                <span class="text-gray-500">No image</span>
+              </div>
+            {% endif %}
+          </a>
+        </div>
+        
+        <!-- Product info -->
+        <div class="mt-4 flex justify-between">
+          <div>
+            <h3 class="text-sm text-gray-700 font-medium">
+              <a href="{{ product.url }}">
+                {{ product.title | truncate: 50 }}
+              </a>
+            </h3>
+            
+            <!-- Shop name (vendor) -->
+            <p class="mt-1 text-sm text-gray-500">{{ product.vendor }}</p>
+            
+            <!-- Rating snippet - pulls from product metafields or third-party app -->
+            {% render 'etsy-product-rating', product: product %}
+            
+            <!-- Sale and price -->
+            <div class="mt-1 flex items-center">
+              {% if product.compare_at_price > product.price %}
+                <span class="text-sm font-medium text-red-600">Sale</span>
+                <span class="ml-2 text-sm line-through text-gray-500">{{ product.compare_at_price | money }}</span>
+              {% endif %}
+              <span class="{% if product.compare_at_price > product.price %}ml-2{% endif %} text-sm font-medium text-gray-900">
+                {{ product.price | money }}
+              </span>
+            </div>
+            
+            <!-- Free shipping if applicable -->
+            {% if product.metafields.my_fields.free_shipping %}
+              <p class="mt-1 text-xs text-etsy-orange">FREE shipping</p>
+            {% endif %}
+            
+            <!-- Number sold -->
+            {% if product.metafields.my_fields.items_sold %}
+              <p class="mt-1 text-xs text-gray-500">{{ product.metafields.my_fields.items_sold }} sold</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <p class="col-span-full text-center py-10 text-gray-500">No products found in this collection</p>
+    {% endfor %}
+  </div>
+  
+  <!-- Pagination -->
+  {% if paginate.pages > 1 %}
+    <div class="flex justify-center mt-12">
+      <nav class="relative z-0 inline-flex shadow-sm -space-x-px" aria-label="Pagination">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+            <span class="sr-only">Previous</span>
+            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        {% endif %}
+        
+        {% for part in paginate.parts %}
+          {% if part.is_link %}
+            <a href="{{ part.url }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+              {{ part.title }}
+            </a>
+          {% elsif part.title == paginate.current_page %}
+            <span class="relative inline-flex items-center px-4 py-2 border border-etsy-orange bg-etsy-orange bg-opacity-10 text-sm font-medium text-etsy-orange">
+              {{ part.title }}
+            </span>
+          {% else %}
+            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+              {{ part.title }}
+            </span>
+          {% endif %}
+        {% endfor %}
+        
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+            <span class="sr-only">Next</span>
+            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        {% endif %}
+      </nav>
+    </div>
+  {% endif %}
+</div>
+
+{% endpaginate %}

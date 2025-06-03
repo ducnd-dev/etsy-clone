@@ -1,0 +1,48 @@
+{% comment %}
+  Product rating display snippet - Etsy style with stars and review count
+  Usage: {% render 'etsy-product-rating', product: product %}
+{% endcomment %}
+
+{% liquid
+  # Get rating from product metafields or assign default values
+  # In a real implementation, this would pull from your app's data
+  assign rating = product.metafields.reviews.rating | default: 0
+  assign rating_count = product.metafields.reviews.count | default: 0
+  
+  # Convert decimal rating to full and half stars
+  assign full_stars = rating | floor
+  assign half_stars = rating | minus: full_stars
+  assign empty_stars = 5 | minus: rating | floor
+%}
+
+{% if rating_count > 0 %}
+<div class="mt-1 flex items-center">
+  <div class="flex text-amber-400">
+    {% for i in (1..full_stars) %}
+      <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
+        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+      </svg>
+    {% endfor %}
+    
+    {% if half_stars > 0.25 and half_stars < 0.75 %}
+      <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
+        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="none" stroke="currentColor" />
+        <path d="M12 2v15.27" fill="none" stroke="currentColor" />
+        <path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z"/>
+      </svg>
+    {% elsif half_stars >= 0.75 %}
+      <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
+        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+      </svg>
+    {% endif %}
+    
+    {% for i in (1..empty_stars) %}
+      <svg class="h-4 w-4 fill-current text-gray-300" viewBox="0 0 24 24">
+        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+      </svg>
+    {% endfor %}
+  </div>
+  
+  <span class="ml-2 text-xs text-gray-500">({{ rating_count }})</span>
+</div>
+{% endif %}

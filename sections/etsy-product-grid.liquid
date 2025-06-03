@@ -1,0 +1,210 @@
+{% comment %}
+  Etsy-style product grid with filters and product cards
+{% endcomment %}
+
+<section class="py-16 {% if section.settings.background_color == 'light' %}bg-etsy-light-grey{% else %}bg-white{% endif %}">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-8">
+      <h2 class="text-3xl font-bold text-etsy-dark">{{ section.settings.title }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p class="mt-4 text-lg text-gray-500 max-w-3xl mx-auto">{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+    
+    <div class="mb-10 flex flex-col md:flex-row justify-center items-center">
+      <!-- Filter tabs -->
+      <div class="inline-flex flex-wrap justify-center gap-3 bg-white py-2 px-4 rounded-full shadow-sm">
+        <button class="px-6 py-2 rounded-full text-sm font-medium bg-etsy-orange text-white hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
+          All Items
+        </button>
+        {% if section.settings.show_bestseller_filter %}
+          <button class="px-6 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange transition-all duration-300">
+            Bestsellers
+          </button>
+        {% endif %}
+        {% if section.settings.show_new_filter %}
+          <button class="px-6 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange transition-all duration-300">
+            New Arrivals
+          </button>
+        {% endif %}
+        
+        <!-- More filters dropdown -->
+        <div class="relative inline-block text-left">
+          <button class="px-6 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange flex items-center transition-all duration-300">
+            <span>More Filters</span>
+            <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+      <!-- Product grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+      {% for product in collections[section.settings.collection].products limit: section.settings.products_per_page %}
+        <div class="group relative">
+          <div class="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden bg-white shadow-sm group-hover:shadow-md transition-shadow duration-300">
+            <a href="{{ product.url }}">
+              {% if product.featured_image != blank %}
+                <img 
+                  src="{{ product.featured_image | image_url: width: 350 }}" 
+                  alt="{{ product.featured_image.alt | escape }}" 
+                  width="350" height="262"
+                  class="w-full h-full object-center object-cover group-hover:opacity-95 group-hover:scale-105 transition-all duration-500"
+                  loading="lazy">
+              {% else %}
+                <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                  <span class="text-gray-500">No image</span>
+                </div>
+              {% endif %}
+            </a>
+            
+            <!-- Quick add to cart button -->
+            {% render 'etsy-quick-add-button', product: product %}
+            
+            <!-- Sale badge if on sale -->
+            {% if product.compare_at_price > product.price %}
+              <div class="absolute top-2 left-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-bold uppercase shadow-sm">Sale</div>
+            {% endif %}
+            
+            <!-- Bestseller badge if applicable -->
+            {% if product.metafields.my_fields.bestseller %}
+              <div class="absolute top-2 right-2 bg-etsy-orange text-white px-2 py-1 rounded text-xs font-bold uppercase shadow-sm">Bestseller</div>
+            {% endif %}
+          </div>
+          
+          <!-- Product info -->
+          <div class="mt-4 px-1">
+            <div>
+              <!-- Shop name (vendor) -->
+              <p class="text-xs text-gray-500 mb-1">{{ product.vendor }}</p>
+              
+              <h3 class="text-sm font-medium text-gray-700 group-hover:text-etsy-orange transition-colors duration-300">
+                <a href="{{ product.url }}" class="line-clamp-2">
+                  {{ product.title | truncate: 50 }}
+                </a>
+              </h3>
+              
+              <!-- Rating snippet - pulls from product metafields or third-party app -->
+              {% render 'etsy-product-rating', product: product %}
+              
+              <!-- Sale and price -->
+              <div class="mt-2 flex items-center">
+                {% if product.compare_at_price > product.price %}
+                  <span class="text-sm line-through text-gray-400 mr-2">{{ product.compare_at_price | money }}</span>
+                {% endif %}
+                <span class="text-sm font-medium text-gray-900">
+                  {{ product.price | money }}
+                </span>
+              </div>
+              
+              <div class="mt-1 flex flex-wrap items-center text-xs gap-x-3">
+                <!-- Free shipping if applicable -->
+                {% if product.metafields.my_fields.free_shipping %}
+                  <p class="text-etsy-orange font-medium">FREE shipping</p>
+                {% endif %}
+                
+                <!-- Number sold or popular item -->
+                {% if product.metafields.my_fields.items_sold %}
+                  <p class="text-gray-500">{{ product.metafields.my_fields.items_sold }} sold</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <p class="col-span-full text-center py-16 text-gray-500 text-lg">No products found</p>
+      {% endfor %}
+    </div>
+      <!-- Load more button -->
+    {% if collections[section.settings.collection].products.size > section.settings.products_per_page %}
+      <div class="text-center mt-12">
+        <button class="py-3 px-8 border-2 border-etsy-orange text-etsy-orange rounded-full hover:bg-etsy-orange hover:text-white transition-all duration-300 font-medium hover:shadow-md transform hover:scale-105 inline-flex items-center">
+          Show more listings
+          <svg class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+    {% endif %}
+    
+    {% if section.settings.show_view_all_button and section.settings.collection != blank %}
+      <div class="mt-4 text-center">
+        <a href="{{ collections[section.settings.collection].url }}" class="text-etsy-orange hover:underline text-sm font-medium">View all {{ collections[section.settings.collection].title }}</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Etsy Product Grid",  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Popular right now"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "Discover our most popular handmade and vintage items"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Background Color",
+      "options": [
+        {
+          "value": "light",
+          "label": "Light Gray"
+        },
+        {
+          "value": "white",
+          "label": "White"
+        }
+      ],
+      "default": "white"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection to Display"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "default": 16,
+      "label": "Products per page"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bestseller_filter",
+      "label": "Show bestseller filter",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_new_filter",
+      "label": "Show new arrivals filter",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all_button",
+      "label": "Show view all button",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Etsy Product Grid",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}

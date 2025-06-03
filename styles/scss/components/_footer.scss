@@ -1,0 +1,142 @@
+// Footer component styles
+.etsy-footer {
+  background-color: $gray-100;
+  padding: $spacer-5 0;
+  
+  &__container {
+    @include flex-column;
+    
+    @include md {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: $spacer-4;
+    }
+  }
+  
+  &__section {
+    margin-bottom: $spacer-4;
+    
+    @include md {
+      margin-bottom: 0;
+    }
+    
+    h3 {
+      font-size: 1.125rem;
+      font-weight: $font-weight-bold;
+      margin-bottom: $spacer-3;
+      color: $etsy-dark;
+    }
+    
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    
+    li {
+      margin-bottom: $spacer-2;
+    }
+    
+    a {
+      color: $gray-600;
+      font-size: 0.9rem;
+      
+      &:hover {
+        color: $etsy-orange;
+      }
+    }
+  }
+  
+  &__social {
+    display: flex;
+    gap: $spacer-2;
+    margin-top: $spacer-3;
+    
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: $border-radius-full;
+      background-color: $gray-200;
+      color: $gray-700;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background-color: $etsy-orange;
+        color: $white;
+        transform: translateY(-2px);
+      }
+      
+      svg {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+    }
+  }
+  
+  &__newsletter {
+    margin-top: $spacer-3;
+    
+    form {
+      display: flex;
+      
+      input {
+        flex: 1;
+        padding: $spacer-2;
+        border: 1px solid $gray-300;
+        border-radius: $border-radius 0 0 $border-radius;
+        
+        &:focus {
+          outline: none;
+          border-color: $etsy-orange;
+        }
+      }
+      
+      button {
+        padding: $spacer-2 $spacer-3;
+        background-color: $etsy-orange;
+        color: $white;
+        border: none;
+        border-radius: 0 $border-radius $border-radius 0;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+          background-color: $etsy-orange-dark;
+        }
+      }
+    }
+  }
+  
+  &__bottom {
+    margin-top: $spacer-5;
+    padding-top: $spacer-3;
+    border-top: 1px solid $gray-300;
+    
+    &-content {
+      @include flex-column;
+      gap: $spacer-3;
+      
+      @include md {
+        @include flex-between;
+      }
+    }
+    
+    &-left {
+      font-size: 0.875rem;
+      color: $gray-600;
+    }
+    
+    &-right {
+      display: flex;
+      gap: $spacer-3;
+      
+      img {
+        height: 1.5rem;
+        width: auto;
+      }
+    }
+  }
+}

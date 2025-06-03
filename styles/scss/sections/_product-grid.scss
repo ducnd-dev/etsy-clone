@@ -1,0 +1,238 @@
+// Product grid section styles
+.product-grid {
+  padding: $spacer-5 0;
+  
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $spacer-4;
+    
+    h2 {
+      font-size: 1.5rem;
+      font-weight: $font-weight-bold;
+      
+      @include md {
+        font-size: 1.75rem;
+      }
+    }
+  }
+  
+  &__filters {
+    display: flex;
+    align-items: center;
+    margin-bottom: $spacer-4;
+    flex-wrap: wrap;
+    gap: $spacer-2;
+    
+    .filter {
+      &-button {
+        padding: $spacer-2 $spacer-3;
+        background-color: $white;
+        border: 1px solid $gray-300;
+        border-radius: $border-radius;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        
+        svg {
+          margin-left: $spacer-2;
+          width: 1rem;
+          height: 1rem;
+        }
+        
+        &:hover {
+          border-color: $etsy-orange;
+        }
+      }
+      
+      &-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $spacer-2;
+        
+        .tag {
+          display: flex;
+          align-items: center;
+          background-color: $gray-100;
+          padding: 0.25rem 0.75rem;
+          border-radius: $border-radius-full;
+          font-size: 0.875rem;
+          color: $etsy-dark;
+          
+          button {
+            margin-left: $spacer-2;
+            padding: 0;
+            background: none;
+            border: none;
+            color: $gray-500;
+            cursor: pointer;
+            line-height: 1;
+            
+            &:hover {
+              color: $etsy-orange;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  &__view-options {
+    display: flex;
+    align-items: center;
+    gap: $spacer-2;
+    
+    .view-option {
+      padding: $spacer-1;
+      background: none;
+      border: none;
+      color: $gray-500;
+      cursor: pointer;
+      
+      &:hover {
+        color: $etsy-orange;
+      }
+      
+      &.active {
+        color: $etsy-orange;
+      }
+      
+      svg {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+    }
+  }
+  
+  &__sort {
+    position: relative;
+    
+    select {
+      appearance: none;
+      padding-right: 1.5rem;
+      background-color: transparent;
+      border: none;
+      font-size: 0.9rem;
+      cursor: pointer;
+      
+      &:focus {
+        outline: none;
+      }
+    }
+    
+    svg {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      width: 1rem;
+      height: 1rem;
+      color: $gray-500;
+    }
+  }
+  
+  &__container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacer-4;
+    
+    @include md {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @include lg {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    
+    &.view-list {
+      grid-template-columns: 1fr;
+      
+      .product-card {
+        @include md {
+          flex-direction: row;
+        }
+        
+        &__image {
+          @include md {
+            width: 240px;
+            padding-bottom: 0;
+          }
+        }
+        
+        &__content {
+          @include md {
+            padding-left: $spacer-4;
+          }
+        }
+      }
+    }
+  }
+  
+  &__pagination {
+    margin-top: $spacer-5;
+    display: flex;
+    justify-content: center;
+    
+    .pagination {
+      display: flex;
+      align-items: center;
+      gap: $spacer-1;
+      
+      &-item {
+        a, span {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 2.5rem;
+          height: 2.5rem;
+          border-radius: $border-radius;
+          font-weight: $font-weight-medium;
+        }
+        
+        a {
+          color: $etsy-dark;
+          
+          &:hover {
+            background-color: $gray-100;
+          }
+        }
+        
+        &.active span {
+          background-color: $etsy-orange;
+          color: $white;
+        }
+        
+        &.disabled span {
+          color: $gray-400;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+  
+  &__empty {
+    text-align: center;
+    padding: $spacer-5 0;
+    
+    svg {
+      width: 4rem;
+      height: 4rem;
+      margin: 0 auto $spacer-4;
+      color: $gray-300;
+    }
+    
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: $spacer-3;
+    }
+    
+    p {
+      color: $gray-600;
+      max-width: 36rem;
+      margin: 0 auto $spacer-4;
+    }
+  }
+}

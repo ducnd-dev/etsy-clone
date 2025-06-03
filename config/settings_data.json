@@ -1,0 +1,156 @@
+{
+  "current": {
+    "primary_color": "#F1641E",
+    "secondary_color": "#222222",
+    "accent_color": "#4A6EE0",
+    "text_color": "#222222",
+    "heading_color": "#222222",
+    "heading_font": "helvetica_n4",
+    "body_font": "helvetica_n4",
+    "base_font_size": 16,
+    "product_image_ratio": "square",
+    "show_vendor": true,
+    "show_rating": true,
+    "social_facebook_link": "https://facebook.com/shopify",
+    "social_instagram_link": "https://instagram.com/shopify",
+    "social_pinterest_link": "https://pinterest.com/shopify",
+    "social_youtube_link": "https://youtube.com/shopify",
+    "sections": {
+      "etsy-header": {
+        "type": "etsy-header",
+        "settings": {
+          "logo": ""
+        }
+      },
+      "etsy-hero-search": {
+        "type": "etsy-hero-search",
+        "settings": {
+          "heading": "Find your perfect handmade treasure",
+          "subheading": "Discover unique items from independent creators",
+          "search_placeholder": "Search for anything...",
+          "show_popular_searches": true
+        },
+        "blocks": {
+          "popular-1": {
+            "type": "popular_search",
+            "settings": {
+              "search_term": "Wall art"
+            }
+          },
+          "popular-2": {
+            "type": "popular_search",
+            "settings": {
+              "search_term": "Jewelry"
+            }
+          },
+          "popular-3": {
+            "type": "popular_search",
+            "settings": {
+              "search_term": "Home decor"
+            }
+          },
+          "popular-4": {
+            "type": "popular_search",
+            "settings": {
+              "search_term": "Gifts"
+            }
+          }
+        },
+        "block_order": ["popular-1", "popular-2", "popular-3", "popular-4"]
+      },
+      "etsy-featured-categories": {
+        "type": "etsy-featured-categories",
+        "settings": {
+          "title": "Shop by Category"
+        },
+        "blocks": {
+          "category-1": {
+            "type": "category",
+            "settings": {
+              "title": "Home Decor",
+              "link": "/collections/home-decor"
+            }
+          },
+          "category-2": {
+            "type": "category",
+            "settings": {
+              "title": "Jewelry",
+              "link": "/collections/jewelry"
+            }
+          },
+          "category-3": {
+            "type": "category",
+            "settings": {
+              "title": "Clothing",
+              "link": "/collections/clothing"
+            }
+          },
+          "category-4": {
+            "type": "category",
+            "settings": {
+              "title": "Art",
+              "link": "/collections/art"
+            }
+          },
+          "category-5": {
+            "type": "category",
+            "settings": {
+              "title": "Gifts",
+              "link": "/collections/gifts"
+            }
+          },
+          "category-6": {
+            "type": "category",
+            "settings": {
+              "title": "Craft Supplies",
+              "link": "/collections/craft-supplies"
+            }
+          }
+        },
+        "block_order": ["category-1", "category-2", "category-3", "category-4", "category-5", "category-6"]
+      },
+      "etsy-product-grid": {
+        "type": "etsy-product-grid",
+        "settings": {
+          "title": "Popular right now",
+          "collection": "frontpage",
+          "products_per_page": 16,
+          "show_bestseller_filter": true,
+          "show_new_filter": true
+        }
+      },
+      "etsy-footer": {
+        "type": "etsy-footer",
+        "settings": {
+          "newsletter_title": "Yes! Send me exclusive offers and unique gift ideas",
+          "newsletter_text": "Subscribe to our newsletter",
+          "newsletter_placeholder": "Enter your email",
+          "col1_title": "Shop",
+          "col1_menu": "main-menu",
+          "col2_title": "Sell",
+          "col2_menu": "footer-menu",
+          "col3_title": "Help",
+          "col3_menu": "footer-menu",
+          "col4_title": "About",
+          "col4_menu": "footer-menu",
+          "bottom_menu": "footer-menu"
+        }
+      }
+    }
+  },
+  "presets": {
+    "Default": {
+      "primary_color": "#F1641E",
+      "secondary_color": "#222222",
+      "accent_color": "#4A6EE0",
+      "text_color": "#222222",
+      "heading_color": "#222222",
+      "heading_font": "helvetica_n4",
+      "body_font": "helvetica_n4",
+      "base_font_size": 16,
+      "product_image_ratio": "square",
+      "show_vendor": true,
+      "show_rating": true
+    }
+  }
+}

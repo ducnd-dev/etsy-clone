@@ -1,0 +1,168 @@
+// Product card component styles
+.product-card {
+  position: relative;
+  transition: transform 0.2s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  &:hover {
+    transform: translateY(-4px);
+    
+    .product-card__image img {
+      transform: scale(1.05);
+    }
+    
+    .btn-quick-add {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  &__image {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 100%;
+    background-color: $gray-100;
+    border-radius: $border-radius;
+    margin-bottom: $spacer-3;
+    
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+  }
+  
+  &__badge {
+    position: absolute;
+    top: $spacer-2;
+    left: $spacer-2;
+    padding: $spacer-1 $spacer-2;
+    font-size: 0.75rem;
+    font-weight: $font-weight-medium;
+    border-radius: $border-radius;
+    z-index: 1;
+    
+    &--sale {
+      background-color: $etsy-orange;
+      color: $white;
+    }
+    
+    &--new {
+      background-color: $gray-800;
+      color: $white;
+    }
+    
+    &--bestseller {
+      background-color: #ffc107;
+      color: $etsy-dark;
+    }
+  }
+  
+  &__wishlist {
+    position: absolute;
+    top: $spacer-2;
+    right: $spacer-2;
+    background-color: $white;
+    border: none;
+    border-radius: $border-radius-full;
+    width: 2.5rem;
+    height: 2.5rem;
+    @include flex-center;
+    box-shadow: $shadow;
+    cursor: pointer;
+    z-index: 1;
+    
+    &:hover {
+      color: $etsy-orange;
+    }
+    
+    &--active {
+      color: $etsy-orange;
+    }
+  }
+  
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  &__title {
+    font-size: 1rem;
+    font-weight: $font-weight-medium;
+    margin-bottom: $spacer-1;
+    
+    a {
+      color: $etsy-dark;
+      
+      &:hover {
+        color: $etsy-orange;
+      }
+    }
+  }
+  
+  &__shop {
+    font-size: 0.875rem;
+    color: $gray-600;
+    margin-bottom: $spacer-2;
+    
+    a:hover {
+      color: $etsy-orange;
+      text-decoration: underline;
+    }
+  }
+  
+  &__rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: $spacer-2;
+    
+    &-stars {
+      display: flex;
+      color: #ffc107;
+      
+      svg {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+    
+    &-count {
+      font-size: 0.875rem;
+      color: $gray-600;
+      margin-left: $spacer-1;
+    }
+  }
+  
+  &__price {
+    margin-top: auto;
+    font-weight: $font-weight-semibold;
+    font-size: 1.125rem;
+    display: flex;
+    align-items: baseline;
+    
+    &-regular {
+      text-decoration: line-through;
+      color: $gray-500;
+      font-size: 0.875rem;
+      font-weight: $font-weight-normal;
+      margin-right: $spacer-2;
+    }
+    
+    &-sale {
+      color: $etsy-orange;
+    }
+  }
+  
+  &__free-shipping {
+    margin-top: $spacer-1;
+    font-size: 0.75rem;
+    color: $gray-600;
+  }
+}

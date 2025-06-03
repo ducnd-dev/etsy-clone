@@ -1,0 +1,173 @@
+{% comment %}
+  Article Page Template
+  Displays individual blog post content
+{% endcomment %}
+
+<article class="bg-white">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    
+    {% comment %} Article Header {% endcomment %}
+    <header class="mb-8">
+      
+      {% comment %} Breadcrumb {% endcomment %}
+      <nav class="mb-6">
+        <ol class="flex items-center space-x-2 text-sm text-gray-500">
+          <li><a href="{{ routes.root_url }}" class="hover:text-gray-700">Home</a></li>
+          <li><span class="mx-2">/</span></li>
+          <li><a href="{{ blog.url }}" class="hover:text-gray-700">{{ blog.title }}</a></li>
+          <li><span class="mx-2">/</span></li>
+          <li class="text-gray-900">{{ article.title }}</li>
+        </ol>
+      </nav>
+
+      {% comment %} Article Title {% endcomment %}
+      <h1 class="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">{{ article.title }}</h1>
+      
+      {% comment %} Article Meta {% endcomment %}
+      <div class="flex items-center text-sm text-gray-500 mb-6">
+        <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+          {{ article.published_at | date: '%B %d, %Y' }}
+        </time>
+        {% if article.author != blank %}
+          <span class="mx-2">•</span>
+          <span>By {{ article.author }}</span>
+        {% endif %}
+        {% if article.tags.size > 0 %}
+          <span class="mx-2">•</span>
+          <div class="flex items-center space-x-2">
+            {% for tag in article.tags limit: 3 %}
+              <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                {{ tag }}
+              </span>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Featured Image {% endcomment %}
+      {% if article.image %}
+        <div class="aspect-w-16 aspect-h-9 mb-8">
+          {{ article.image | image_url: width: 1200 | image_tag: 
+             class: 'w-full h-64 sm:h-96 object-cover rounded-lg',
+             alt: article.title }}
+        </div>
+      {% endif %}
+
+    </header>
+
+    {% comment %} Article Content {% endcomment %}
+    <div class="prose prose-lg max-w-none mb-12">
+      {{ article.content }}
+    </div>
+
+    {% comment %} Article Footer {% endcomment %}
+    <footer class="border-t border-gray-200 pt-8">
+      
+      {% comment %} Tags {% endcomment %}
+      {% if article.tags.size > 0 %}
+        <div class="mb-6">
+          <h3 class="text-sm font-medium text-gray-900 mb-3">Tags</h3>
+          <div class="flex flex-wrap gap-2">
+            {% for tag in article.tags %}
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}" 
+                 class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors">
+                {{ tag }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% comment %} Social Share {% endcomment %}
+      <div class="mb-8">
+        <h3 class="text-sm font-medium text-gray-900 mb-3">Share this article</h3>
+        <div class="flex space-x-3">
+          <a href="https://twitter.com/intent/tweet?url={{ shop.url }}{{ article.url }}&text={{ article.title | url_encode }}" 
+             target="_blank" 
+             class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"/>
+            </svg>
+            Twitter
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ article.url }}" 
+             target="_blank" 
+             class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M20 10C20 4.477 15.523 0 10 0S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z" clip-rule="evenodd"/>
+            </svg>
+            Facebook
+          </a>
+        </div>
+      </div>
+
+      {% comment %} Navigation {% endcomment %}
+      <div class="flex justify-between items-center">
+        {% if blog.previous_article %}
+          <a href="{{ blog.previous_article.url }}" 
+             class="inline-flex items-center text-etsy-orange hover:text-etsy-orange-dark">
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            Previous article
+          </a>
+        {% else %}
+          <div></div>
+        {% endif %}
+
+        <a href="{{ blog.url }}" 
+           class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+          Back to {{ blog.title }}
+        </a>
+
+        {% if blog.next_article %}
+          <a href="{{ blog.next_article.url }}" 
+             class="inline-flex items-center text-etsy-orange hover:text-etsy-orange-dark">
+            Next article
+            <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+            </svg>
+          </a>
+        {% else %}
+          <div></div>
+        {% endif %}
+      </div>
+    </footer>
+
+  </div>
+</article>
+
+{% comment %} Related Articles {% endcomment %}
+{% assign related_articles = blog.articles | where: 'id', '!=', article.id | limit: 3 %}
+{% if related_articles.size > 0 %}
+  <section class="bg-gray-50 py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-8">Related Articles</h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        {% for related_article in related_articles %}
+          <article class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+            {% if related_article.image %}
+              <div class="aspect-w-16 aspect-h-9">
+                <a href="{{ related_article.url }}">
+                  {{ related_article.image | image_url: width: 400 | image_tag: 
+                     class: 'w-full h-32 object-cover hover:opacity-90 transition-opacity',
+                     alt: related_article.title }}
+                </a>
+              </div>
+            {% endif %}
+            <div class="p-4">
+              <h3 class="text-lg font-medium text-gray-900 mb-2">
+                <a href="{{ related_article.url }}" class="hover:text-etsy-orange transition-colors">
+                  {{ related_article.title }}
+                </a>
+              </h3>
+              <p class="text-sm text-gray-500">
+                {{ related_article.published_at | date: '%B %d, %Y' }}
+              </p>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endif %}

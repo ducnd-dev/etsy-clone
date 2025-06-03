@@ -1,0 +1,30 @@
+/* 
+ * Main SCSS file for Etsy-style Shopify theme 
+ * Compiles into theme.css
+ */
+
+// Import variables and settings
+@import 'variables';
+@import 'mixins';
+
+// Import base styles
+@import 'base';
+
+// Import component styles
+@import 'components/header';
+@import 'components/footer';
+@import 'components/buttons';
+@import 'components/product-card';
+@import 'components/cart-drawer';
+@import 'components/mobile-menu';
+@import 'components/forms';
+
+// Import section styles
+@import 'sections/hero';
+@import 'sections/featured-categories';
+@import 'sections/product-grid';
+@import 'sections/newsletter';
+@import 'sections/promotions';
+
+// Import utilities and overrides
+@import 'utilities';
