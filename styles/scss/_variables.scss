@@ -1,9 +1,9 @@
 // Variables for Etsy Theme with Tailwind v4 integration
-// Colors - Using CSS variables to integrate with Tailwind theme
-$etsy-orange: var(--etsy-orange, #F1641E);
-$etsy-orange-dark: var(--etsy-orange-dark, #d44c0d);
-$etsy-dark: var(--etsy-dark, #222222);
-$etsy-light-grey: var(--etsy-light-grey, #F8F8F8);
+// Colors - Using CSS variables to integrate with Tailwind theme and Shopify settings
+$etsy-orange: var(--color-primary, #F1641E);
+$etsy-orange-dark: color-mix(in srgb, var(--color-primary, #F1641E) 85%, black);
+$etsy-dark: var(--color-secondary, #222222);
+$etsy-light-grey: var(--color-light-grey, #F8F8F8);
 
 $white: var(--tw-color-white, #ffffff);
 $black: var(--tw-color-black, #000000);

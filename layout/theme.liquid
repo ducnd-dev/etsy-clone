@@ -3,8 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#F1641E">
+  <meta name="viewport" content="width=device-width,initial-scale=1">  <meta name="theme-color" content="{{ settings.primary_color | default: '#F1641E' }}">
   <link rel="canonical" href="{{ canonical_url }}">
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +15,42 @@
     {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
     {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
   </title>
-    <!-- Tailwind CSS v4 Integration -->
+    <!-- Dynamic Theme Colors from Settings -->
+  <style>
+    :root {
+      --color-primary: {{ settings.primary_color | default: '#F1641E' }};
+      --color-secondary: {{ settings.secondary_color | default: '#222222' }};
+      --color-accent: {{ settings.accent_color | default: '#4A6EE0' }};
+      --color-text: {{ settings.text_color | default: '#222222' }};
+      --color-heading: {{ settings.heading_color | default: '#222222' }};
+      
+      /* Extended color palette for complete theme coverage */
+      --color-white: {{ settings.white_color | default: '#ffffff' }};
+      --color-border: {{ settings.border_color | default: '#d1d5db' }};
+      --color-border-light: {{ settings.border_light_color | default: '#e5e7eb' }};
+      --color-border-subtle: {{ settings.border_subtle_color | default: '#e2e8f0' }};
+      --color-border-muted: {{ settings.border_muted_color | default: '#cbd5e1' }};
+      --color-shadow: {{ settings.shadow_color | default: '#000000' }};
+      --color-overlay: {{ settings.overlay_color | default: '#1f2937' }};
+      
+      /* Background colors */
+      --color-background-alt: {{ settings.background_alt_color | default: '#f3f4f6' }};
+      --color-background-subtle: {{ settings.background_subtle_color | default: '#f8fafc' }};
+      --color-background-muted: {{ settings.background_muted_color | default: '#f1f5f9' }};
+      
+      /* Scrollbar colors */
+      --color-scrollbar-thumb: {{ settings.scrollbar_thumb_color | default: '#9ca3af' }};
+      --color-scrollbar-track: {{ settings.scrollbar_track_color | default: '#f3f4f6' }};
+      
+      /* Shimmer animation colors */
+      --color-shimmer-light: {{ settings.shimmer_light_color | default: '#f0f0f0' }};
+      --color-shimmer-dark: {{ settings.shimmer_dark_color | default: '#e0e0e0' }};
+      
+      --font-size-base: {{ settings.base_font_size | default: 16 }}px;
+    }
+  </style>
+  
+  <!-- Tailwind CSS v4 Integration -->
   {{ 'theme-tailwind.css' | asset_url | stylesheet_tag }}
   <!-- Custom SCSS Styles -->
   {{ 'theme.css' | asset_url | stylesheet_tag }}

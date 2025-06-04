@@ -309,3 +309,74 @@ For support and questions:
 ---
 
 **Built with ❤️ for the Shopify community**
+
+## 🎨 Advanced Customization
+
+### Dynamic Theme Settings (New!)
+The theme now includes a powerful theme settings system that allows store owners to customize colors through the Shopify admin panel:
+
+#### Theme Settings Panel
+Navigate to **Online Store → Themes → Customize** to access:
+
+**Colors Section:**
+- **Primary Color**: Main brand color (default: Etsy Orange #F1641E)
+- **Secondary Color**: Text and secondary elements (default: #222222)  
+- **Accent Color**: Highlights and accents (default: #4A6EE0)
+- **Text Color**: Body text color
+- **Heading Color**: Heading text color
+
+**Typography Section:**
+- **Heading Font**: Choose from Shopify's font library
+- **Body Font**: Choose from Shopify's font library
+- **Base Font Size**: Adjust base font size (12-18px)
+
+**Product Display Section:**
+- **Image Ratio**: Square, portrait, or landscape
+- **Show Vendor**: Display/hide product vendor
+- **Show Rating**: Display/hide product ratings
+
+**Social Media Section:**
+Configure links for Facebook, Instagram, Pinterest, and YouTube.
+
+#### How It Works
+The theme uses CSS custom properties (CSS variables) that are dynamically set from your theme settings:
+
+```liquid
+<!-- In theme.liquid head -->
+<style>
+  :root {
+    --color-primary: {{ settings.primary_color | default: '#F1641E' }};
+    --color-secondary: {{ settings.secondary_color | default: '#222222' }};
+    --color-accent: {{ settings.accent_color | default: '#4A6EE0' }};
+    --color-text: {{ settings.text_color | default: '#222222' }};
+    --color-heading: {{ settings.heading_color | default: '#222222' }};
+    --font-size-base: {{ settings.base_font_size | default: 16 }}px;
+  }
+</style>
+```
+
+#### Available CSS Classes
+**New Dynamic Classes:**
+- `.text-primary`, `.bg-primary`, `.border-primary`
+- `.text-secondary`, `.bg-secondary`
+- `.text-accent`, `.bg-accent`
+
+**Legacy Compatible Classes:**
+- `.text-etsy-orange` → now uses `var(--color-primary)`
+- `.bg-etsy-orange` → now uses `var(--color-primary)`
+- `.text-etsy-dark` → now uses `var(--color-secondary)`
+
+**Example Usage in Templates:**
+```liquid
+<!-- Dynamic button that uses theme setting colors -->
+<button class="bg-primary text-white hover:bg-primary-dark">
+  Add to Cart
+</button>
+
+<!-- Compatible with existing Etsy classes -->
+<div class="text-etsy-orange border-etsy-orange">
+  Now uses your custom primary color!
+</div>
+```
+
+### Legacy Color Customization (Tailwind v4)
