@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "primary_color": "#F1641E",
@@ -19,17 +28,13 @@
       "etsy-header": {
         "type": "etsy-header",
         "settings": {
-          "logo": ""
+          "announcement_bar_enabled": true,
+          "announcement_bar_text": "Free shipping on orders over $35!",
+          "announcement_bar_link": ""
         }
       },
       "etsy-hero-search": {
         "type": "etsy-hero-search",
-        "settings": {
-          "heading": "Find your perfect handmade treasure",
-          "subheading": "Discover unique items from independent creators",
-          "search_placeholder": "Search for anything...",
-          "show_popular_searches": true
-        },
         "blocks": {
           "popular-1": {
             "type": "popular_search",
@@ -56,67 +61,96 @@
             }
           }
         },
-        "block_order": ["popular-1", "popular-2", "popular-3", "popular-4"]
+        "block_order": [
+          "popular-1",
+          "popular-2",
+          "popular-3",
+          "popular-4"
+        ],
+        "settings": {
+          "heading": "Find your perfect handmade treasure",
+          "subheading": "Discover unique items from independent creators",
+          "search_placeholder": "Search for anything...",
+          "hero_image": "shopify://shop_images/sale-tag.jpg",
+          "show_popular_searches": true
+        }
       },
       "etsy-featured-categories": {
         "type": "etsy-featured-categories",
-        "settings": {
-          "title": "Shop by Category"
-        },
         "blocks": {
           "category-1": {
             "type": "category",
             "settings": {
               "title": "Home Decor",
-              "link": "/collections/home-decor"
+              "link": "/collections/home-decor",
+              "image": "shopify://shop_images/person-stands-on-rocks-poking-out-of-the-ocean-shoreline.jpg"
             }
           },
           "category-2": {
             "type": "category",
             "settings": {
               "title": "Jewelry",
-              "link": "/collections/jewelry"
+              "link": "/collections/jewelry",
+              "image": "shopify://shop_images/stacked-bracelets.jpg"
             }
           },
           "category-3": {
             "type": "category",
             "settings": {
               "title": "Clothing",
-              "link": "/collections/clothing"
+              "link": "/collections/clothing",
+              "image": "shopify://shop_images/rack-of-womens-clothing.jpg"
             }
           },
           "category-4": {
             "type": "category",
             "settings": {
               "title": "Art",
-              "link": "/collections/art"
+              "link": "/collections/art",
+              "image": "shopify://shop_images/autumn-photographer-taking-picture.jpg"
             }
           },
           "category-5": {
             "type": "category",
             "settings": {
               "title": "Gifts",
-              "link": "/collections/gifts"
+              "link": "/collections/gifts",
+              "image": "shopify://shop_images/a-woman-in-her-shop.jpg"
             }
           },
           "category-6": {
             "type": "category",
             "settings": {
               "title": "Craft Supplies",
-              "link": "/collections/craft-supplies"
+              "link": "/collections/craft-supplies",
+              "image": "shopify://shop_images/young-boy-smiles-at-father-holding-baby-sister.jpg"
             }
           }
         },
-        "block_order": ["category-1", "category-2", "category-3", "category-4", "category-5", "category-6"]
+        "block_order": [
+          "category-1",
+          "category-2",
+          "category-3",
+          "category-4",
+          "category-5",
+          "category-6"
+        ],
+        "settings": {
+          "title": "Shop by Category",
+          "subtitle": "Discover our curated collection of unique handmade treasures organized by category"
+        }
       },
       "etsy-product-grid": {
         "type": "etsy-product-grid",
         "settings": {
           "title": "Popular right now",
+          "subtitle": "Discover our most popular handmade and vintage items",
+          "background_color": "white",
           "collection": "frontpage",
           "products_per_page": 16,
           "show_bestseller_filter": true,
-          "show_new_filter": true
+          "show_new_filter": true,
+          "show_view_all_button": true
         }
       },
       "etsy-footer": {
@@ -128,15 +162,46 @@
           "col1_title": "Shop",
           "col1_menu": "main-menu",
           "col2_title": "Sell",
-          "col2_menu": "footer-menu",
+          "col2_menu": "",
           "col3_title": "Help",
-          "col3_menu": "footer-menu",
+          "col3_menu": "",
           "col4_title": "About",
-          "col4_menu": "footer-menu",
-          "bottom_menu": "footer-menu"
+          "col4_menu": "",
+          "bottom_menu": ""
+        }
+      },
+      "etsy-promotions-banner": {
+        "type": "etsy-promotions-banner",
+        "settings": {
+          "label": "Limited Time Offer",
+          "heading": "Shop our exclusive handmade collection",
+          "description": "Discover unique items crafted by independent artists and makers from around the world.",
+          "text_align": "left",
+          "background_style": "color",
+          "background_color": "etsy-light-grey",
+          "background_image": "shopify://shop_images/rack-of-womens-clothing.jpg",
+          "overlay_opacity": 0.5,
+          "text_color": "dark",
+          "button_text": "Shop Now",
+          "button_link": "",
+          "button_style": "primary"
+        }
+      },
+      "etsy-newsletter": {
+        "type": "etsy-newsletter",
+        "settings": {
+          "heading": "Subscribe to our newsletter",
+          "description": "Sign up for email updates on the latest collections, unique offers, and insider tips.",
+          "email_placeholder": "Enter your email",
+          "button_text": "Subscribe",
+          "background_style": "color",
+          "background_color": "etsy-light-grey",
+          "overlay_opacity": 0.5,
+          "show_social_sharing": true
         }
       }
-    }
+    },
+    "content_for_index": []
   },
   "presets": {
     "Default": {
