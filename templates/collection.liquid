@@ -11,51 +11,98 @@
       <div class="mt-4 text-gray-500">{{ collection.description }}</div>
     {% endif %}
   </div>
-  
-  <!-- Collection filters and sorting -->
+    <!-- Collection filters and sorting -->
   <div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-200 pb-4">
     <!-- Filter buttons -->
-    <div class="flex flex-wrap gap-2 mb-4 md:mb-0">
-      <button class="px-4 py-2 rounded-full text-sm font-medium bg-etsy-orange text-white hover:bg-opacity-90">
+    <div class="flex flex-wrap gap-2 mb-4 md:mb-0" data-collection-filters>
+      <button class="filter-btn active px-4 py-2 rounded-full text-sm font-medium bg-etsy-orange text-white hover:bg-opacity-90" data-filter="all">
         All Items ({{ collection.products_count }})
       </button>
       
-      <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
+      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange transition-all duration-300" data-filter="bestseller">
         Bestsellers
       </button>
       
-      <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
+      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange transition-all duration-300" data-filter="new">
         New Arrivals
       </button>
       
       <!-- Filter dropdown -->
-      <div class="relative inline-block text-left">
-        <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center">
-          <span>Filter</span>
-          <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+      <div class="relative inline-block text-left" data-filter-dropdown>
+        <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange flex items-center transition-all duration-300" data-filter-dropdown-toggle>
+          <span>More Filters</span>
+          <svg class="ml-2 h-4 w-4 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20" data-filter-dropdown-arrow>
             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
           </svg>
         </button>
+        
+        <!-- Filter dropdown menu -->
+        <div class="hidden absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10" data-filter-dropdown-menu>
+          <div class="py-1" role="menu">
+            <button class="filter-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors" data-filter="sale" role="menuitem">
+              <span class="flex items-center">
+                <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                </svg>
+                On Sale
+              </span>
+            </button>
+            <button class="filter-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors" data-filter="free-shipping" role="menuitem">
+              <span class="flex items-center">
+                <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+                Free Shipping
+              </span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     
     <!-- Sort dropdown -->
-    <div class="relative inline-block text-left">
-      <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center">
-        <span>Sort by: Featured</span>
-        <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+    <div class="relative inline-block text-left" data-sort-dropdown>
+      <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange flex items-center transition-all duration-300" data-sort-dropdown-toggle>
+        <span data-sort-label>Sort by: Featured</span>
+        <svg class="ml-2 h-4 w-4 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20" data-sort-dropdown-arrow>
           <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
         </svg>
       </button>
+      
+      <!-- Sort dropdown menu -->
+      <div class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10" data-sort-dropdown-menu>
+        <div class="py-1" role="menu">
+          <button class="sort-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors" data-sort="featured" role="menuitem">
+            Featured
+          </button>
+          <button class="sort-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors" data-sort="price-low-high" role="menuitem">
+            Price: Low to High
+          </button>
+          <button class="sort-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors" data-sort="price-high-low" role="menuitem">
+            Price: High to Low
+          </button>
+          <button class="sort-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors" data-sort="newest" role="menuitem">
+            Newest
+          </button>
+          <button class="sort-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors" data-sort="bestselling" role="menuitem">
+            Best Selling
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-  
-  <!-- Product grid -->
-  <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
+    <!-- Product grid -->
+  <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8" data-collection-products-grid>
     {% for product in collection.products %}
-      <div class="group">
+      <div class="group product-item" 
+           data-product-bestseller="{% if product.metafields.etsy.bestseller %}true{% else %}false{% endif %}"
+           data-product-new="{% if product.metafields.etsy.new_arrival %}true{% else %}false{% endif %}"
+           data-product-sale="{% if product.compare_at_price > product.price %}true{% else %}false{% endif %}"
+           data-product-free-shipping="{% if product.metafields.etsy.free_shipping %}true{% else %}false{% endif %}"
+           data-product-price="{{ product.price }}"
+           data-product-created="{{ product.created_at | date: '%s' }}">
         <div class="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden bg-gray-100">
-          <a href="{{ product.url }}">            {% if product.featured_image != blank %}
+          <a href="{{ product.url }}">{% if product.featured_image != blank %}
               <img 
                 src="{{ product.featured_image | image_url: width: 350 }}" 
                 alt="{{ product.featured_image.alt | escape }}" 
@@ -95,15 +142,14 @@
                 {{ product.price | money }}
               </span>
             </div>
-            
-            <!-- Free shipping if applicable -->
-            {% if product.metafields.my_fields.free_shipping %}
+              <!-- Free shipping if applicable -->
+            {% if product.metafields.etsy.free_shipping %}
               <p class="mt-1 text-xs text-etsy-orange">FREE shipping</p>
             {% endif %}
             
             <!-- Number sold -->
-            {% if product.metafields.my_fields.items_sold %}
-              <p class="mt-1 text-xs text-gray-500">{{ product.metafields.my_fields.items_sold }} sold</p>
+            {% if product.metafields.etsy.items_sold %}
+              <p class="mt-1 text-xs text-gray-500">{{ product.metafields.etsy.items_sold }} sold</p>
             {% endif %}
           </div>
         </div>
@@ -156,3 +202,294 @@
 </div>
 
 {% endpaginate %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Collection Filter & Sort Functionality
+  const filterContainer = document.querySelector('[data-collection-filters]');
+  const productGrid = document.querySelector('[data-collection-products-grid]');
+  const filterDropdown = document.querySelector('[data-filter-dropdown]');
+  const sortDropdown = document.querySelector('[data-sort-dropdown]');
+  
+  if (!filterContainer || !productGrid) return;
+  
+  const filterButtons = filterContainer.querySelectorAll('.filter-btn');
+  const sortButtons = document.querySelectorAll('.sort-btn');
+  const productItems = productGrid.querySelectorAll('.product-item');
+  
+  // Filter dropdown elements
+  const filterDropdownToggle = filterDropdown?.querySelector('[data-filter-dropdown-toggle]');
+  const filterDropdownMenu = filterDropdown?.querySelector('[data-filter-dropdown-menu]');
+  const filterDropdownArrow = filterDropdown?.querySelector('[data-filter-dropdown-arrow]');
+  
+  // Sort dropdown elements
+  const sortDropdownToggle = sortDropdown?.querySelector('[data-sort-dropdown-toggle]');
+  const sortDropdownMenu = sortDropdown?.querySelector('[data-sort-dropdown-menu]');
+  const sortDropdownArrow = sortDropdown?.querySelector('[data-sort-dropdown-arrow]');
+  const sortLabel = sortDropdown?.querySelector('[data-sort-label]');
+  
+  let currentFilter = 'all';
+  let currentSort = 'featured';
+  
+  // Filter functionality
+  function filterProducts(filterType) {
+    currentFilter = filterType;
+    let visibleProducts = [];
+    
+    productItems.forEach(item => {
+      let shouldShow = false;
+      
+      switch(filterType) {
+        case 'all':
+          shouldShow = true;
+          break;
+        case 'bestseller':
+          shouldShow = item.getAttribute('data-product-bestseller') === 'true';
+          break;
+        case 'new':
+          shouldShow = item.getAttribute('data-product-new') === 'true';
+          break;
+        case 'sale':
+          shouldShow = item.getAttribute('data-product-sale') === 'true';
+          break;
+        case 'free-shipping':
+          shouldShow = item.getAttribute('data-product-free-shipping') === 'true';
+          break;
+      }
+      
+      if (shouldShow) {
+        item.style.display = 'block';
+        item.classList.add('animate-fadeIn');
+        visibleProducts.push(item);
+      } else {
+        item.style.display = 'none';
+        item.classList.remove('animate-fadeIn');
+      }
+    });
+    
+    // Apply current sort to visible products
+    sortProducts(currentSort, visibleProducts);
+    
+    // Show/hide empty state
+    showEmptyState(visibleProducts.length === 0, filterType);
+  }
+  
+  // Sort functionality
+  function sortProducts(sortType, productsToSort = null) {
+    currentSort = sortType;
+    const products = productsToSort || Array.from(productItems).filter(item => item.style.display !== 'none');
+    
+    products.sort((a, b) => {
+      switch(sortType) {
+        case 'price-low-high':
+          return parseInt(a.getAttribute('data-product-price')) - parseInt(b.getAttribute('data-product-price'));
+        case 'price-high-low':
+          return parseInt(b.getAttribute('data-product-price')) - parseInt(a.getAttribute('data-product-price'));
+        case 'newest':
+          return parseInt(b.getAttribute('data-product-created')) - parseInt(a.getAttribute('data-product-created'));
+        case 'bestselling':
+          const aIsBest = a.getAttribute('data-product-bestseller') === 'true';
+          const bIsBest = b.getAttribute('data-product-bestseller') === 'true';
+          if (aIsBest && !bIsBest) return -1;
+          if (!aIsBest && bIsBest) return 1;
+          return 0;
+        default: // featured
+          return 0;
+      }
+    });
+    
+    // Reorder DOM elements
+    products.forEach(product => {
+      productGrid.appendChild(product);
+    });
+    
+    // Update sort label
+    const sortLabels = {
+      'featured': 'Sort by: Featured',
+      'price-low-high': 'Sort by: Price Low to High',
+      'price-high-low': 'Sort by: Price High to Low',
+      'newest': 'Sort by: Newest',
+      'bestselling': 'Sort by: Best Selling'
+    };
+    
+    if (sortLabel) {
+      sortLabel.textContent = sortLabels[sortType] || 'Sort by: Featured';
+    }
+  }
+  
+  // Show empty state when no products match filter
+  function showEmptyState(show, filterType) {
+    let emptyState = productGrid.querySelector('.empty-state');
+    
+    if (show && !emptyState) {
+      emptyState = document.createElement('div');
+      emptyState.className = 'empty-state col-span-full text-center py-16';
+      emptyState.innerHTML = `
+        <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No products found</h3>
+        <p class="text-gray-500">Try adjusting your filters or check back later.</p>
+        <button class="mt-4 px-4 py-2 bg-etsy-orange text-white rounded-full hover:bg-opacity-90 transition-colors" onclick="document.querySelector('[data-filter=\\"all\\"]').click()">
+          Show all products
+        </button>
+      `;
+      productGrid.appendChild(emptyState);
+    } else if (!show && emptyState) {
+      emptyState.remove();
+    }
+  }
+  
+  // Update active filter button
+  function updateActiveFilterButton(activeButton) {
+    filterButtons.forEach(btn => {
+      btn.classList.remove('active', 'bg-etsy-orange', 'text-white');
+      btn.classList.add('bg-white', 'border', 'border-gray-300', 'text-gray-700');
+    });
+    
+    activeButton.classList.add('active', 'bg-etsy-orange', 'text-white');
+    activeButton.classList.remove('bg-white', 'border', 'border-gray-300', 'text-gray-700');
+  }
+  
+  // Dropdown toggle functionality
+  function toggleDropdown(dropdown, arrow) {
+    if (!dropdown || !arrow) return;
+    
+    const isHidden = dropdown.classList.contains('hidden');
+    
+    if (isHidden) {
+      dropdown.classList.remove('hidden');
+      arrow.style.transform = 'rotate(180deg)';
+    } else {
+      dropdown.classList.add('hidden');
+      arrow.style.transform = 'rotate(0deg)';
+    }
+  }
+  
+  // Handle filter button clicks
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const filterType = this.getAttribute('data-filter');
+      
+      // Update active state
+      updateActiveFilterButton(this);
+      
+      // Filter products
+      filterProducts(filterType);
+      
+      // Close dropdown if it's open
+      if (filterDropdownMenu && !filterDropdownMenu.classList.contains('hidden')) {
+        toggleDropdown(filterDropdownMenu, filterDropdownArrow);
+      }
+      
+      // Add animation to grid
+      productGrid.style.opacity = '0.7';
+      setTimeout(() => {
+        productGrid.style.opacity = '1';
+      }, 150);
+    });
+  });
+  
+  // Handle sort button clicks
+  sortButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const sortType = this.getAttribute('data-sort');
+      
+      // Sort products
+      sortProducts(sortType);
+      
+      // Close dropdown
+      if (sortDropdownMenu && !sortDropdownMenu.classList.contains('hidden')) {
+        toggleDropdown(sortDropdownMenu, sortDropdownArrow);
+      }
+      
+      // Add animation to grid
+      productGrid.style.opacity = '0.7';
+      setTimeout(() => {
+        productGrid.style.opacity = '1';
+      }, 150);
+    });
+  });
+  
+  // Handle filter dropdown toggle
+  if (filterDropdownToggle) {
+    filterDropdownToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Close sort dropdown first
+      if (sortDropdownMenu && !sortDropdownMenu.classList.contains('hidden')) {
+        toggleDropdown(sortDropdownMenu, sortDropdownArrow);
+      }
+      
+      toggleDropdown(filterDropdownMenu, filterDropdownArrow);
+    });
+  }
+  
+  // Handle sort dropdown toggle
+  if (sortDropdownToggle) {
+    sortDropdownToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Close filter dropdown first
+      if (filterDropdownMenu && !filterDropdownMenu.classList.contains('hidden')) {
+        toggleDropdown(filterDropdownMenu, filterDropdownArrow);
+      }
+      
+      toggleDropdown(sortDropdownMenu, sortDropdownArrow);
+    });
+  }
+  
+  // Close dropdowns when clicking outside
+  document.addEventListener('click', function(e) {
+    if (filterDropdown && !filterDropdown.contains(e.target)) {
+      if (filterDropdownMenu && !filterDropdownMenu.classList.contains('hidden')) {
+        toggleDropdown(filterDropdownMenu, filterDropdownArrow);
+      }
+    }
+    
+    if (sortDropdown && !sortDropdown.contains(e.target)) {
+      if (sortDropdownMenu && !sortDropdownMenu.classList.contains('hidden')) {
+        toggleDropdown(sortDropdownMenu, sortDropdownArrow);
+      }
+    }
+  });
+  
+  // Add CSS for animations
+  const style = document.createElement('style');
+  style.textContent = `
+    .animate-fadeIn {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .product-item {
+      transition: all 0.3s ease;
+    }
+    
+    [data-collection-products-grid] {
+      transition: opacity 0.2s ease;
+    }
+    
+    [data-filter-dropdown-arrow], [data-sort-dropdown-arrow] {
+      transition: transform 0.2s ease;
+    }
+  `;
+  document.head.appendChild(style);
+});
+</script>

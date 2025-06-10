@@ -11,38 +11,61 @@
       {% endif %}
     </div>
     
-    <div class="mb-10 flex flex-col md:flex-row justify-center items-center">
-      <!-- Filter tabs -->
-      <div class="inline-flex flex-wrap justify-center gap-3 bg-white py-2 px-4 rounded-full shadow-sm">
-        <button class="px-6 py-2 rounded-full text-sm font-medium bg-etsy-orange text-white hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
+    <div class="mb-10 flex flex-col md:flex-row justify-center items-center">      <!-- Filter tabs -->
+      <div class="inline-flex flex-wrap justify-center gap-3 bg-white py-2 px-4 rounded-full shadow-sm" data-product-filters>
+        <button class="filter-btn active px-6 py-2 rounded-full text-sm font-medium bg-etsy-orange text-white hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105" data-filter="all">
           All Items
         </button>
         {% if section.settings.show_bestseller_filter %}
-          <button class="px-6 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange transition-all duration-300">
+          <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange transition-all duration-300" data-filter="bestseller">
             Bestsellers
           </button>
         {% endif %}
         {% if section.settings.show_new_filter %}
-          <button class="px-6 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange transition-all duration-300">
+          <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange transition-all duration-300" data-filter="new">
             New Arrivals
           </button>
         {% endif %}
         
         <!-- More filters dropdown -->
-        <div class="relative inline-block text-left">
-          <button class="px-6 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange flex items-center transition-all duration-300">
+        <div class="relative inline-block text-left" data-more-filters-dropdown>
+          <button class="px-6 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange flex items-center transition-all duration-300" data-dropdown-toggle>
             <span>More Filters</span>
-            <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="ml-2 h-4 w-4 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20" data-dropdown-arrow>
               <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
           </button>
+          
+          <!-- Dropdown menu -->
+          <div class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10" data-dropdown-menu>
+            <div class="py-1" role="menu">
+              <button class="filter-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors" data-filter="sale" role="menuitem">
+                <span class="flex items-center">
+                  <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                  </svg>
+                  On Sale
+                </span>
+              </button>
+              <button class="filter-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors" data-filter="free-shipping" role="menuitem">
+                <span class="flex items-center">
+                  <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                  </svg>
+                  Free Shipping
+                </span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-      <!-- Product grid -->
-    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
-      {% for product in collections[section.settings.collection].products limit: section.settings.products_per_page %}
-        <div class="group relative">
+    </div>    <!-- Product grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10" data-products-grid>
+      {% for product in collections[section.settings.collection].products limit: section.settings.products_per_page %}        <div class="group relative product-item" 
+             data-product-bestseller="{% if product.metafields.etsy.bestseller %}true{% else %}false{% endif %}"
+             data-product-new="{% if product.metafields.etsy.new_arrival %}true{% else %}false{% endif %}"
+             data-product-sale="{% if product.compare_at_price > product.price %}true{% else %}false{% endif %}"
+             data-product-free-shipping="{% if product.metafields.etsy.free_shipping %}true{% else %}false{% endif %}">
           <div class="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden bg-white shadow-sm group-hover:shadow-md transition-shadow duration-300">
             <a href="{{ product.url }}">
               {% if product.featured_image != blank %}
@@ -66,9 +89,8 @@
             {% if product.compare_at_price > product.price %}
               <div class="absolute top-2 left-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-bold uppercase shadow-sm">Sale</div>
             {% endif %}
-            
-            <!-- Bestseller badge if applicable -->
-            {% if product.metafields.my_fields.bestseller %}
+              <!-- Bestseller badge if applicable -->
+            {% if product.metafields.etsy.bestseller %}
               <div class="absolute top-2 right-2 bg-etsy-orange text-white px-2 py-1 rounded text-xs font-bold uppercase shadow-sm">Bestseller</div>
             {% endif %}
           </div>
@@ -97,16 +119,15 @@
                   {{ product.price | money }}
                 </span>
               </div>
-              
-              <div class="mt-1 flex flex-wrap items-center text-xs gap-x-3">
+                <div class="mt-1 flex flex-wrap items-center text-xs gap-x-3">
                 <!-- Free shipping if applicable -->
-                {% if product.metafields.my_fields.free_shipping %}
+                {% if product.metafields.etsy.free_shipping %}
                   <p class="text-etsy-orange font-medium">FREE shipping</p>
                 {% endif %}
                 
                 <!-- Number sold or popular item -->
-                {% if product.metafields.my_fields.items_sold %}
-                  <p class="text-gray-500">{{ product.metafields.my_fields.items_sold }} sold</p>
+                {% if product.metafields.etsy.items_sold %}
+                  <p class="text-gray-500">{{ product.metafields.etsy.items_sold }} sold</p>
                 {% endif %}
               </div>
             </div>
@@ -127,10 +148,16 @@
         </button>
       </div>
     {% endif %}
-    
-    {% if section.settings.show_view_all_button and section.settings.collection != blank %}
+      {% if section.settings.show_view_all_button and section.settings.collection != blank %}
       <div class="mt-4 text-center">
-        <a href="{{ collections[section.settings.collection].url }}" class="text-etsy-orange hover:underline text-sm font-medium">View all {{ collections[section.settings.collection].title }}</a>
+        <a href="{{ collections[section.settings.collection].url }}" class="text-etsy-orange hover:underline text-sm font-medium">
+          View all 
+          {% if section.settings.collection == 'frontpage' %}
+            Featured Products
+          {% else %}
+            {{ collections[section.settings.collection].title }}
+          {% endif %}
+        </a>
       </div>
     {% endif %}
   </div>
@@ -208,3 +235,184 @@
   ]
 }
 {% endschema %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Product Filter Functionality
+  const filterContainer = document.querySelector('[data-product-filters]');
+  const productGrid = document.querySelector('[data-products-grid]');
+  const moreFiltersDropdown = document.querySelector('[data-more-filters-dropdown]');
+  
+  if (!filterContainer || !productGrid) return;
+  
+  const filterButtons = filterContainer.querySelectorAll('.filter-btn');
+  const productItems = productGrid.querySelectorAll('.product-item');
+  const dropdownToggle = moreFiltersDropdown?.querySelector('[data-dropdown-toggle]');
+  const dropdownMenu = moreFiltersDropdown?.querySelector('[data-dropdown-menu]');
+  const dropdownArrow = moreFiltersDropdown?.querySelector('[data-dropdown-arrow]');
+  
+  // Filter functionality
+  function filterProducts(filterType) {
+    let visibleCount = 0;
+    
+    productItems.forEach(item => {
+      let shouldShow = false;
+      
+      switch(filterType) {
+        case 'all':
+          shouldShow = true;
+          break;
+        case 'bestseller':
+          shouldShow = item.getAttribute('data-product-bestseller') === 'true';
+          break;
+        case 'new':
+          shouldShow = item.getAttribute('data-product-new') === 'true';
+          break;
+        case 'sale':
+          shouldShow = item.getAttribute('data-product-sale') === 'true';
+          break;
+        case 'free-shipping':
+          shouldShow = item.getAttribute('data-product-free-shipping') === 'true';
+          break;
+      }
+      
+      if (shouldShow) {
+        item.style.display = 'block';
+        item.classList.add('animate-fadeIn');
+        visibleCount++;
+      } else {
+        item.style.display = 'none';
+        item.classList.remove('animate-fadeIn');
+      }
+    });
+    
+    // Show/hide empty state
+    showEmptyState(visibleCount === 0, filterType);
+  }
+  
+  // Show empty state when no products match filter
+  function showEmptyState(show, filterType) {
+    let emptyState = productGrid.querySelector('.empty-state');
+    
+    if (show && !emptyState) {
+      emptyState = document.createElement('div');
+      emptyState.className = 'empty-state col-span-full text-center py-16';
+      emptyState.innerHTML = `
+        <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No products found</h3>
+        <p class="text-gray-500">Try adjusting your filters or check back later.</p>
+        <button class="mt-4 px-4 py-2 bg-etsy-orange text-white rounded-full hover:bg-opacity-90 transition-colors" onclick="document.querySelector('[data-filter=\\"all\\"]').click()">
+          Show all products
+        </button>
+      `;
+      productGrid.appendChild(emptyState);
+    } else if (!show && emptyState) {
+      emptyState.remove();
+    }
+  }
+  
+  // Update active button state
+  function updateActiveButton(activeButton) {
+    filterButtons.forEach(btn => {
+      btn.classList.remove('active', 'bg-etsy-orange', 'text-white');
+      btn.classList.add('bg-white', 'border', 'border-gray-300', 'text-gray-700');
+    });
+    
+    activeButton.classList.add('active', 'bg-etsy-orange', 'text-white');
+    activeButton.classList.remove('bg-white', 'border', 'border-gray-300', 'text-gray-700');
+  }
+  
+  // Handle filter button clicks
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const filterType = this.getAttribute('data-filter');
+      
+      // Update active state
+      updateActiveButton(this);
+      
+      // Filter products with animation
+      filterProducts(filterType);
+      
+      // Close dropdown if it's open
+      if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) {
+        toggleDropdown();
+      }
+      
+      // Add subtle animation to grid
+      productGrid.style.opacity = '0.7';
+      setTimeout(() => {
+        productGrid.style.opacity = '1';
+      }, 150);
+    });
+  });
+  
+  // Dropdown functionality
+  function toggleDropdown() {
+    if (!dropdownMenu || !dropdownArrow) return;
+    
+    const isHidden = dropdownMenu.classList.contains('hidden');
+    
+    if (isHidden) {
+      dropdownMenu.classList.remove('hidden');
+      dropdownArrow.style.transform = 'rotate(180deg)';
+    } else {
+      dropdownMenu.classList.add('hidden');
+      dropdownArrow.style.transform = 'rotate(0deg)';
+    }
+  }
+  
+  // Handle dropdown toggle
+  if (dropdownToggle) {
+    dropdownToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleDropdown();
+    });
+  }
+  
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(e) {
+    if (moreFiltersDropdown && !moreFiltersDropdown.contains(e.target)) {
+      if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) {
+        toggleDropdown();
+      }
+    }
+  });
+  
+  // Add CSS for animations
+  const style = document.createElement('style');
+  style.textContent = `
+    .animate-fadeIn {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .product-item {
+      transition: all 0.3s ease;
+    }
+    
+    [data-products-grid] {
+      transition: opacity 0.2s ease;
+    }
+    
+    [data-dropdown-arrow] {
+      transition: transform 0.2s ease;
+    }
+  `;
+  document.head.appendChild(style);
+});
+</script>

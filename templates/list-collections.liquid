@@ -15,10 +15,8 @@
     {% comment %} Collections Grid {% endcomment %}
     {% if collections.size > 0 %}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        
-        {% for collection in collections %}
-          {% unless collection.handle == 'frontpage' %}
-            <div class="group">
+          {% for collection in collections %}
+          <div class="group">
               <a href="{{ collection.url }}" class="block">
                 
                 {% comment %} Collection Image {% endcomment %}
@@ -43,12 +41,14 @@
                       </div>
                     {% endif %}
                   {% endif %}
-                </div>
-
-                {% comment %} Collection Info {% endcomment %}
+                </div>                {% comment %} Collection Info {% endcomment %}
                 <div>
                   <h3 class="text-lg font-medium text-gray-900 group-hover:text-etsy-orange transition-colors">
-                    {{ collection.title }}
+                    {% if collection.handle == 'frontpage' %}
+                      Featured Products
+                    {% else %}
+                      {{ collection.title }}
+                    {% endif %}
                   </h3>
                   
                   {% comment %} Product Count {% endcomment %}
@@ -59,12 +59,14 @@
                     {% else %}
                       {{ product_count }} items
                     {% endif %}
-                  </p>
-
-                  {% comment %} Collection Description {% endcomment %}
+                  </p>                  {% comment %} Collection Description {% endcomment %}
                   {% if collection.description != blank %}
                     <p class="text-sm text-gray-600 mt-2 line-clamp-2">
                       {{ collection.description | strip_html | truncate: 100 }}
+                    </p>
+                  {% elsif collection.handle == 'frontpage' %}
+                    <p class="text-sm text-gray-600 mt-2 line-clamp-2">
+                      Our handpicked selection of the best products
                     </p>
                   {% endif %}
 
@@ -88,12 +90,10 @@
                       {% else %}
                         {{ min_price | money }} - {{ max_price | money }}
                       {% endif %}
-                    </p>
-                  {% endif %}
+                    </p>                  {% endif %}
                 </div>
               </a>
             </div>
-          {% endunless %}
         {% endfor %}
       </div>
 
@@ -147,13 +147,3 @@
 
   </div>
 </div>
-
-{% comment %} Add some custom styles for line-clamp {% endcomment %}
-<style>
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-</style>
