@@ -177,7 +177,7 @@
           "heading": "Shop our exclusive handmade collection",
           "description": "Discover unique items crafted by independent artists and makers from around the world.",
           "text_align": "left",
-          "background_style": "color",
+          "background_style": "image",
           "background_color": "etsy-light-grey",
           "background_image": "shopify://shop_images/rack-of-womens-clothing.jpg",
           "overlay_opacity": 0.5,
