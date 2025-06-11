@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metafields Validator - Etsy Clone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'etsy-orange': '#FF6900',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">🔧 Metafields Setup Validator</h1>
+            
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <h2 class="text-lg font-semibold text-blue-900 mb-2">📋 Required Metafields</h2>
+                <p class="text-blue-700">This tool helps you verify that your metafields are set up correctly for the Etsy Clone theme.</p>
+            </div>
+
+            <!-- Metafields Status -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-900 mb-3">✅ Required Metafields</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                            <code>etsy.bestseller</code> (boolean)
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                            <code>etsy.new_arrival</code> (boolean)
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                            <code>etsy.free_shipping</code> (boolean)
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                            <code>etsy.items_sold</code> (number_integer)
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-900 mb-3">🎯 Expected Functionality</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                            Bestseller filter button
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                            New Arrivals filter button
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                            Free Shipping filter button
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                            Product badges display
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Quick Setup Steps -->
+            <div class="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold text-amber-900 mb-3">🚀 Quick Setup Steps</h3>
+                <ol class="list-decimal list-inside space-y-2 text-amber-800">
+                    <li>Go to <strong>Shopify Admin</strong> → <strong>Settings</strong> → <strong>Custom data</strong></li>
+                    <li>Click <strong>Products</strong></li>
+                    <li>Add definition: <code>etsy.bestseller</code> (Boolean)</li>
+                    <li>Add definition: <code>etsy.new_arrival</code> (Boolean)</li>
+                    <li>Add definition: <code>etsy.free_shipping</code> (Boolean)</li>
+                    <li>Add definition: <code>etsy.items_sold</code> (Integer)</li>
+                    <li>Edit products to set metafield values</li>
+                    <li>Test filters on your store</li>
+                </ol>
+            </div>
+
+            <!-- Sample Liquid Code -->
+            <div class="bg-gray-900 rounded-lg p-4 mb-6">
+                <h3 class="text-lg font-semibold text-white mb-3">💻 Sample Liquid Code</h3>
+                <pre class="text-green-400 text-sm overflow-x-auto"><code><!-- Check if bestseller -->
+{% if product.metafields.etsy.bestseller.value %}
+  <div class="badge">Bestseller</div>
+{% endif %}
+
+<!-- Check if new arrival -->
+{% if product.metafields.etsy.new_arrival.value %}
+  <div class="badge">New</div>
+{% endif %}
+
+<!-- Show items sold -->
+{% if product.metafields.etsy.items_sold.value %}
+  <p>{{ product.metafields.etsy.items_sold.value }} sold</p>
+{% endif %}</code></pre>
+            </div>
+
+            <!-- Test Data Generator -->
+            <div class="border border-gray-200 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">🧪 Test Data Generator</h3>
+                <p class="text-gray-600 mb-4">Generate test data to verify your metafields setup:</p>
+                
+                <button id="generateData" class="bg-etsy-orange text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-colors">
+                    Generate Test Products
+                </button>
+                
+                <div id="testOutput" class="mt-4 hidden">
+                    <h4 class="font-semibold text-gray-900 mb-2">📄 Sample CSV Data:</h4>
+                    <textarea id="csvData" class="w-full h-32 p-3 border border-gray-300 rounded text-sm font-mono" readonly></textarea>
+                    <button id="copyCsv" class="mt-2 bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">
+                        Copy CSV Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- Troubleshooting -->
+            <div class="mt-8 bg-red-50 border border-red-200 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-red-900 mb-3">🚨 Troubleshooting</h3>
+                <div class="space-y-3 text-red-800">
+                    <div>
+                        <strong>Metafields not showing:</strong>
+                        <p class="text-sm">Check namespace/key spelling: <code>etsy.bestseller</code>, <code>etsy.new_arrival</code></p>
+                    </div>
+                    <div>
+                        <strong>Filters not working:</strong>
+                        <p class="text-sm">Verify data attributes in HTML match JavaScript filter logic</p>
+                    </div>
+                    <div>
+                        <strong>Values not displaying:</strong>
+                        <p class="text-sm">Make sure to use <code>.value</code>: <code>product.metafields.etsy.bestseller.value</code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate test data
+        document.getElementById('generateData').addEventListener('click', function() {
+            const testProducts = [
+                {
+                    handle: 'test-bestseller-product',
+                    title: 'Test Bestseller Product',
+                    vendor: 'TestStore',
+                    price: '29.99',
+                    bestseller: 'TRUE',
+                    new_arrival: 'FALSE',
+                    free_shipping: 'TRUE',
+                    items_sold: '156'
+                },
+                {
+                    handle: 'test-new-arrival-product',
+                    title: 'Test New Arrival Product',
+                    vendor: 'TestStore',
+                    price: '19.99',
+                    bestseller: 'FALSE',
+                    new_arrival: 'TRUE',
+                    free_shipping: 'FALSE',
+                    items_sold: '23'
+                },
+                {
+                    handle: 'test-free-shipping-product',
+                    title: 'Test Free Shipping Product',
+                    vendor: 'TestStore',
+                    price: '45.99',
+                    bestseller: 'FALSE',
+                    new_arrival: 'FALSE',
+                    free_shipping: 'TRUE',
+                    items_sold: '89'
+                }
+            ];
+
+            const csvHeader = 'Handle,Title,Vendor,Type,Published,Variant Price,Status,Metafield: etsy.bestseller [boolean],Metafield: etsy.new_arrival [boolean],Metafield: etsy.free_shipping [boolean],Metafield: etsy.items_sold [number_integer]';
+            
+            const csvRows = testProducts.map(product => 
+                `${product.handle},"${product.title}",${product.vendor},physical,TRUE,${product.price},active,${product.bestseller},${product.new_arrival},${product.free_shipping},${product.items_sold}`
+            ).join('\n');
+
+            const csvData = csvHeader + '\n' + csvRows;
+            
+            document.getElementById('csvData').value = csvData;
+            document.getElementById('testOutput').classList.remove('hidden');
+        });
+
+        // Copy CSV data
+        document.getElementById('copyCsv').addEventListener('click', function() {
+            const csvData = document.getElementById('csvData');
+            csvData.select();
+            document.execCommand('copy');
+            
+            this.textContent = 'Copied!';
+            setTimeout(() => {
+                this.textContent = 'Copy CSV Data';
+            }, 2000);
+        });
+
+        // Add some interactive validation
+        function validateMetafields() {
+            // This would connect to Shopify API in a real implementation
+            console.log('Validating metafields setup...');
+        }
+    </script>
+</body>
+</html>
