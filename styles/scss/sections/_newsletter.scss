@@ -90,8 +90,7 @@
     font-size: 0.75rem;
     color: $gray-600;
   }
-  
-  // Alternative version with image background
+    // Alternative version with gradient background
   &--image {
     position: relative;
     background-color: transparent;
@@ -104,7 +103,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(rgba($etsy-dark, 0.7), rgba($etsy-dark, 0.7)), url('../img/newsletter-bg.jpg') center/cover no-repeat;
+      background: linear-gradient(135deg, rgba($etsy-dark, 0.8), rgba($etsy-orange, 0.7));
       z-index: 0;
     }
     

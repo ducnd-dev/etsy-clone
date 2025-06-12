@@ -9,18 +9,38 @@
     "sass:watch": "sass --watch styles/scss/main.scss:assets/theme.css",
     "tailwind:build": "npx tailwindcss --input ./styles/css/main-tailwind.css --output ./assets/theme-tailwind.css --minify",
     "tailwind:watch": "npx tailwindcss --input ./styles/css/main-tailwind.css --output ./assets/theme-tailwind.css --watch",
-    "build": "npm run sass && npm run tailwind:build",
-    "dev": "concurrently \"npm run sass:watch\" \"npm run tailwind:watch\""
+    "webpack:build": "webpack --mode=production",
+    "webpack:dev": "webpack --mode=development --watch",
+    "build": "npm run webpack:build",
+    "build:legacy": "npm run sass && npm run tailwind:build && npm run js:build",
+    "dev": "npm run webpack:dev",
+    "dev:legacy": "concurrently \"npm run sass:watch\" \"npm run tailwind:watch\" \"npm run js:watch\"",
+    "js:build": "webpack --mode=production",
+    "js:watch": "webpack --mode=development --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.27.4",
+    "@babel/preset-env": "^7.27.2",
     "@tailwindcss/cli": "^4.1.8",
+    "@tailwindcss/postcss": "^4.1.10",
     "autoprefixer": "^10.4.21",
+    "babel-loader": "^10.0.0",
     "concurrently": "^9.1.2",
+    "css-loader": "^7.1.2",
+    "cssnano": "^7.0.7",
+    "esbuild": "^0.25.5",
+    "mini-css-extract-plugin": "^2.9.2",
     "postcss": "^8.5.4",
+    "postcss-loader": "^8.1.1",
     "sass": "^1.89.1",
-    "tailwindcss": "^4.1.8"
+    "sass-loader": "^16.0.5",
+    "style-loader": "^4.0.0",
+    "tailwindcss": "^4.1.8",
+    "terser": "^5.42.0",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1"
   }
 }

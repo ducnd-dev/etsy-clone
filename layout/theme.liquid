@@ -54,9 +54,8 @@
   {{ 'theme-tailwind.css' | asset_url | stylesheet_tag }}
   <!-- Custom SCSS Styles -->
   {{ 'theme.css' | asset_url | stylesheet_tag }}
-  
-  <!-- Theme JavaScript -->
-  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    <!-- Theme JavaScript -->
+  <script src="{{ 'theme.min.js' | asset_url }}" defer></script>
   
   {{ content_for_header }}
 </head>
