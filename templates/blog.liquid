@@ -77,47 +77,10 @@
               </a>
             </div>
           </article>
-        {% endfor %}
-      </div>
+        {% endfor %}      </div>
 
-      {% comment %} Pagination {% endcomment %}
-      {% if paginate.pages > 1 %}
-        <nav class="mt-12 flex items-center justify-center">
-          <div class="flex items-center space-x-2">
-            
-            {% if paginate.previous %}
-              <a href="{{ paginate.previous.url }}" 
-                 class="px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50">
-                Previous
-              </a>
-            {% endif %}
-
-            {% for part in paginate.parts %}
-              {% if part.is_link %}
-                <a href="{{ part.url }}" 
-                   class="px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50">
-                  {{ part.title }}
-                </a>
-              {% else %}
-                {% if part.title == '&hellip;' %}
-                  <span class="px-3 py-2 text-sm font-medium text-gray-400">…</span>
-                {% else %}
-                  <span class="px-3 py-2 text-sm font-medium text-white bg-etsy-orange border border-etsy-orange rounded-md">
-                    {{ part.title }}
-                  </span>
-                {% endif %}
-              {% endif %}
-            {% endfor %}
-
-            {% if paginate.next %}
-              <a href="{{ paginate.next.url }}" 
-                 class="px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50">
-                Next
-              </a>
-            {% endif %}
-          </div>
-        </nav>
-      {% endif %}
+      <!-- Pagination -->
+      {% render 'etsy-pagination', paginate: paginate, context: blog.title %}
 
     {% else %}
       {% comment %} Empty State {% endcomment %}

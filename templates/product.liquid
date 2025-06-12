@@ -99,7 +99,7 @@
           <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
           
           <div class="flex items-center mb-4">
-            <label for="Quantity" class="block text-sm font-medium text-gray-700 mr-4">Quantity</label>
+            <label for="Quantity" class="block text-sm font-medium text-gray-700 mr-4">{{ 'products.product.quantity' | t }}</label>
             <div class="border border-gray-300 rounded-md flex">
               <button type="button" 
                       class="px-3 py-1 text-gray-600 hover:bg-gray-100 focus:outline-none"
@@ -120,16 +120,15 @@
             </div>
           </div>
           
-          <!-- Add to cart button -->
-          <button type="submit" 
+          <!-- Add to cart button -->          <button type="submit" 
                   class="w-full py-3 px-4 bg-etsy-orange text-white font-medium rounded-full hover:bg-etsy-orange/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-etsy-orange mb-3">
-            Add to cart
+            {{ 'products.product.add_to_cart' | t }}
           </button>
           
           <!-- Buy now button -->
           <button type="button" 
                   class="w-full py-3 px-4 bg-white text-etsy-orange font-medium border border-etsy-orange rounded-full hover:bg-etsy-orange hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-etsy-orange">
-            Buy it now
+            {{ 'products.product.buy_now' | t }}
           </button>
         {% endform %}
       </div>

@@ -28,31 +28,29 @@
           width="350" height="262"
           class="w-full h-full object-center object-cover group-hover:opacity-95 group-hover:scale-105 transition-all duration-500"
           loading="lazy">
-      {% else %}
-        <div class="w-full h-full flex items-center justify-center bg-gray-200">
-          <span class="text-gray-500">No image</span>
+      {% else %}        <div class="w-full h-full flex items-center justify-center bg-gray-200">
+          <span class="text-gray-500">{{ 'collections.product_info.no_image' | t }}</span>
         </div>
       {% endif %}
     </a>
     
     <!-- Quick add to cart button -->
     {% render 'etsy-quick-add-button', product: product %}
-    
-    <!-- Sale badge if on sale -->
+      <!-- Sale badge if on sale -->
     {% if product.compare_at_price > product.price %}
-      <div class="absolute top-2 left-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-bold uppercase shadow-sm">Sale</div>
+      <div class="absolute top-2 left-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-bold uppercase shadow-sm">{{ 'products.product.on_sale' | t }}</div>
     {% endif %}
     
     <!-- Bestseller badge if applicable -->
     {% if product.tags contains 'bestseller' %}
-      <div class="absolute top-2 right-2 bg-etsy-orange text-white px-2 py-1 rounded text-xs font-bold uppercase shadow-sm">Bestseller</div>
+      <div class="absolute top-2 right-2 bg-etsy-orange text-white px-2 py-1 rounded text-xs font-bold uppercase shadow-sm">{{ 'products.product.bestseller' | t }}</div>
     {% endif %}
     
     <!-- New arrival badge if created in last 30 days -->
     {% assign thirty_days_ago = 'now' | date: '%s' | minus: 2592000 %}
     {% assign product_created = product.created_at | date: '%s' %}
     {% if product_created > thirty_days_ago %}
-      <div class="absolute top-2 right-2 bg-green-600 text-white px-2 py-1 rounded text-xs font-bold uppercase shadow-sm">New</div>
+      <div class="absolute top-2 right-2 bg-green-600 text-white px-2 py-1 rounded text-xs font-bold uppercase shadow-sm">{{ 'collections.filters.new_arrivals' | t }}</div>
     {% endif %}
   </div>
   
@@ -80,17 +78,15 @@
           {{ product.price | money }}
         </span>
       </div>
-      
-      <!-- Additional info -->
+        <!-- Additional info -->
       <div class="mt-1 flex flex-wrap items-center text-xs gap-x-3">
         {% if product.tags contains 'free-shipping' %}
-          <span class="text-green-600 font-medium">FREE shipping</span>
+          <span class="text-green-600 font-medium">{{ 'products.product.free_shipping' | t }}</span>
         {% endif %}
-        
-        {% if product.available %}
-          <span class="text-gray-500">{{ product.variants.size }} {% if product.variants.size == 1 %}variant{% else %}variants{% endif %}</span>
+          {% if product.available %}
+          <span class="text-gray-500">{{ product.variants.size }} {% if product.variants.size == 1 %}{{ 'products.product.variant' | t }}{% else %}{{ 'products.product.variants' | t }}{% endif %}</span>
         {% else %}
-          <span class="text-red-500 font-medium">Sold out</span>
+          <span class="text-red-500 font-medium">{{ 'products.product.sold_out' | t }}</span>
         {% endif %}
       </div>
     </div>

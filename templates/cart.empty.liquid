@@ -7,22 +7,19 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
               d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v5a2 2 0 01-2 2H9a2 2 0 01-2-2v-5m6-5V6a2 2 0 00-2-2H9a2 2 0 00-2 2v2"></path>
       </svg>
-    </div>
-
-    <!-- Empty Cart Message -->
-    <h1 class="text-3xl font-semibold text-gray-900 mb-4">Your cart is empty</h1>
+    </div>    <!-- Empty Cart Message -->
+    <h1 class="text-3xl font-semibold text-gray-900 mb-4">{{ 'cart.empty_state.heading' | t }}</h1>
     <p class="text-lg text-gray-600 mb-8 max-w-md mx-auto">
-      When you add something to your cart, it will appear here. Ready to get started?
+      {{ 'cart.empty_state.when_add_items' | t }}
     </p>
 
     <!-- Continue Shopping Button -->
     <div class="mb-12">
       <a href="{{ routes.all_products_collection_url }}" 
-         class="inline-flex items-center px-8 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition-colors duration-300 text-lg font-medium">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+         class="inline-flex items-center px-8 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition-colors duration-300 text-lg font-medium">        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
         </svg>
-        Continue shopping
+        {{ 'cart.general.continue_shopping' | t }}
       </a>
     </div>
 

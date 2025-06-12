@@ -26,9 +26,8 @@
                   <span class="text-2xl font-bold text-white">{{ shop.name }}</span>
                 {% endif %}
               </div>
-              <div class="ml-3 h-10 flex items-center">
-                <button type="button" class="p-2 rounded-full bg-white/20 text-white hover:bg-white/30 hover:rotate-90 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white" id="close-mobile-menu-button">
-                  <span class="sr-only">Close panel</span>
+              <div class="ml-3 h-10 flex items-center">                <button type="button" class="p-2 rounded-full bg-white/20 text-white hover:bg-white/30 hover:rotate-90 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white" id="close-mobile-menu-button">
+                  <span class="sr-only">{{ 'general.accessibility.close_panel' | t }}</span>
                   <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
@@ -44,10 +43,9 @@
                   <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                   </svg>
-                </div>
-                <input type="text" 
+                </div>                <input type="text" 
                       name="q" 
-                      placeholder="Search for anything" 
+                      placeholder="{{ 'general.search.placeholder' | t }}" 
                       class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent transition-shadow duration-200">
               </div>
               <button type="submit" class="ml-2 shrink-0 bg-orange-600 text-white rounded-full p-3 hover:bg-orange-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-orange-600 transition-all duration-200">
@@ -161,9 +159,34 @@
                     </li>
                   {% endfor %}
                 </ul>
+              </div>            </div>
+          </div>
+          
+          <!-- Language selector for mobile -->
+          {% assign available_locales = shop.enabled_locales %}
+          {% if available_locales.size > 1 %}
+            <div class="px-5 py-4 border-t border-gray-200">
+              <h3 class="text-sm font-medium text-gray-900 mb-3 flex items-center">
+                <svg class="h-4 w-4 mr-2 text-etsy-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                </svg>
+                Language
+              </h3>
+              <div class="space-y-2">                {% for locale in available_locales %}
+                  <a href="{{ request.path | localized_url: locale.iso_code }}" 
+                     class="flex items-center justify-between p-3 rounded-lg transition-colors {% if locale.iso_code == request.locale.iso_code %}bg-etsy-orange/10 text-etsy-orange{% else %}text-gray-700 hover:bg-gray-50{% endif %}">
+                    <div class="flex items-center">
+                      <svg class="h-4 w-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                      </svg>
+                      <span class="font-medium">{{ locale.name }}</span>
+                    </div>
+                    <span class="text-xs text-gray-500 uppercase">{{ locale.iso_code }}</span>
+                  </a>
+                {% endfor %}
               </div>
             </div>
-          </div>
+          {% endif %}
             <!-- Menu footer with enhanced contrast -->
           <div class="shrink-0 px-5 py-5 border-t border-gray-300 bg-enhanced-contrast">
             <p class="text-enhanced-muted text-xs text-center mb-3">Connect with us</p>

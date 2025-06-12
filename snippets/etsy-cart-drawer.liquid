@@ -22,7 +22,7 @@
                 <svg class="h-7 w-7 text-white mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
-                <h2 class="text-2xl font-bold text-white" id="slide-over-title">Your Cart</h2>
+                <h2 class="text-2xl font-bold text-white" id="slide-over-title">{{ 'cart.general.your_cart' | t }}</h2>
               </div>
               <button type="button" class="p-2.5 rounded-full bg-white/20 text-white hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white transition-all duration-200 hover:rotate-90" id="close-cart-button">
                 <span class="sr-only">Close panel</span>
@@ -34,9 +34,8 @@
             <div class="mt-3 flex items-center">
               <span class="inline-flex items-center justify-center px-3 py-1.5 text-sm font-bold leading-none bg-white text-orange-600 rounded-full mr-3 shadow-sm">
                 <span id="cart-item-count">{{ cart.item_count }}</span>
-              </span>
-              <p class="text-white font-medium text-lg">
-                {% if cart.item_count == 1 %}item{% else %}items{% endif %} in your cart
+              </span>              <p class="text-white font-medium text-lg">
+                {{ 'cart.drawer.items_in_cart' | t }}
               </p>
             </div>
           </div>          <!-- Cart items with enhanced contrast background -->
@@ -52,9 +51,8 @@
                              alt="{{ item.image.alt | escape }}" 
                              width="200" height="200"
                              class="w-full h-full object-center object-cover group-hover:scale-105 transition-all duration-500">
-                      {% else %}
-                        <div class="w-full h-full flex items-center justify-center bg-gray-100">
-                          <span class="text-gray-500 text-xs">No image</span>
+                      {% else %}                        <div class="w-full h-full flex items-center justify-center bg-gray-100">
+                          <span class="text-gray-500 text-xs">{{ 'cart.general.no_image' | t }}</span>
                         </div>
                       {% endif %}
                     </div>
@@ -79,9 +77,8 @@
                         {% endif %}
                       </div>
                       
-                      <div class="flex-1 flex items-end justify-between text-sm mt-4">                        <!-- Quantity selector with enhanced contrast -->
-                        <div class="flex items-center">
-                          <span class="text-gray-700 mr-3 font-medium">Qty</span>
+                      <div class="flex-1 flex items-end justify-between text-sm mt-4">                        <!-- Quantity selector with enhanced contrast -->                        <div class="flex items-center">
+                          <span class="text-gray-700 mr-3 font-medium">{{ 'cart.general.quantity_label' | t }}</span>
                           <div class="border border-gray-300 rounded-full flex shadow-sm overflow-hidden bg-white">                            <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}" 
                                class="px-3 py-1.5 text-gray-700 hover:bg-orange-600 hover:text-white focus:outline-none transition-colors duration-200 font-medium">
                               -
@@ -113,15 +110,13 @@
                   <svg class="h-16 w-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                   </svg>
-                </div>
-                <h3 class="mt-6 text-xl font-bold text-gray-800">Your cart is empty</h3>
-                <p class="mt-2 text-base text-gray-500 max-w-xs mx-auto">Looks like you haven't added anything to your cart yet.</p>
-                <div class="mt-8">
-                  <a href="/collections/all" class="inline-flex items-center px-6 py-3 border border-transparent rounded-full shadow-md text-base font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-600 transition-all duration-200">
+                </div>                <h3 class="mt-6 text-xl font-bold text-gray-800">{{ 'cart.empty_state.heading' | t }}</h3>
+                <p class="mt-2 text-base text-gray-500 max-w-xs mx-auto">{{ 'cart.empty_state.description' | t }}</p>
+                <div class="mt-8">                  <a href="/collections/all" class="inline-flex items-center px-6 py-3 border border-transparent rounded-full shadow-md text-base font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-600 transition-all duration-200">
                     <svg class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                     </svg>
-                    Browse Products
+                    {{ 'cart.drawer.browse_products' | t }}
                   </a>
                 </div>
               </div>
@@ -131,12 +126,11 @@
           <!-- Cart footer with totals and checkout -->
           {% if cart.item_count > 0 %}
             <div class="border-t border-gray-200 py-6 px-6 sm:px-8 bg-white shadow-inner">
-              <!-- Subtotals -->
-              <div class="flex justify-between text-lg font-bold text-gray-900">
-                <p>Subtotal</p>
+              <!-- Subtotals -->              <div class="flex justify-between text-lg font-bold text-gray-900">
+                <p>{{ 'cart.general.subtotal' | t }}</p>
                 <p>{{ cart.total_price | money }}</p>
               </div>
-              <p class="mt-1.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+              <p class="mt-1.5 text-sm text-gray-500">{{ 'cart.general.shipping_at_checkout' | t }}</p>
               
               <!-- Special offers -->
               {% if cart.total_price < 3500 %}
@@ -144,9 +138,8 @@
                   <div class="flex items-start">
                     <svg class="h-6 w-6 text-orange-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
-                    </svg>
-                    <p class="ml-3 text-sm text-gray-700">
-                      Add <span class="font-bold text-orange-600">{{ 3500 | minus: cart.total_price | money }}</span> more to get <span class="font-bold">FREE shipping</span>
+                    </svg>                    <p class="ml-3 text-sm text-gray-700">
+                      {{ 'cart.general.free_shipping_progress' | t: amount: 3500 | minus: cart.total_price | money }}
                     </p>
                   </div>
                   <div class="mt-3 w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
@@ -156,18 +149,16 @@
               {% endif %}
               
               <!-- Checkout and continue shopping buttons -->
-              <div class="mt-6">
-                <a href="/checkout" class="flex justify-center items-center px-6 py-3.5 border border-transparent rounded-full shadow-md text-base font-bold text-white bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-600 transition-colors duration-300">
+              <div class="mt-6">                <a href="/checkout" class="flex justify-center items-center px-6 py-3.5 border border-transparent rounded-full shadow-md text-base font-bold text-white bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-600 transition-colors duration-300">
                   <svg class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
-                  Proceed to Checkout
+                  {{ 'cart.general.proceed_to_checkout' | t }}
                 </a>
                 <div class="mt-4 flex justify-center text-sm text-center text-gray-500">
                   <p>
-                    or 
-                    <button type="button" id="continue-shopping" class="text-orange-600 font-medium hover:text-orange-700 transition-colors duration-200 group">
-                      Continue Shopping
+                    or                    <button type="button" id="continue-shopping" class="text-orange-600 font-medium hover:text-orange-700 transition-colors duration-200 group">
+                      {{ 'cart.general.continue_shopping' | t }}
                       <span aria-hidden="true" class="group-hover:ml-0.5 transition-all duration-200"> →</span>
                     </button>
                   </p>

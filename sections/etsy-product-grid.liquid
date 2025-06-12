@@ -1,194 +1,81 @@
 {% comment %}
-  Etsy-style product grid with filters and product cards
+  Etsy-style product grid section for homepage
 {% endcomment %}
 
 <section class="py-16 {% if section.settings.background_color == 'light' %}bg-etsy-light-grey{% else %}bg-white{% endif %}">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section header -->
     <div class="text-center mb-8">
       <h2 class="text-3xl font-bold text-etsy-dark">{{ section.settings.title }}</h2>
       {% if section.settings.subtitle != blank %}
         <p class="mt-4 text-lg text-gray-500 max-w-3xl mx-auto">{{ section.settings.subtitle }}</p>
       {% endif %}
-    </div>
-    
-    <div class="mb-10 flex flex-col md:flex-row justify-center items-center">      <!-- Filter tabs -->
-      <div class="inline-flex flex-wrap justify-center gap-3 bg-white py-2 px-4 rounded-full shadow-sm" data-product-filters>
-        <button class="filter-btn active px-6 py-2 rounded-full text-sm font-medium bg-etsy-orange text-white hover:bg-etsy-orange/90 transition-all duration-300 transform hover:scale-105" data-filter="all">
-          All Items
-        </button>
-        {% if section.settings.show_bestseller_filter %}
-          <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange transition-all duration-300" data-filter="bestseller">
-            Bestsellers
-          </button>
-        {% endif %}
-        {% if section.settings.show_new_filter %}
-          <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange transition-all duration-300" data-filter="new">
-            New Arrivals
-          </button>
-        {% endif %}
-        
-        <!-- More filters dropdown -->
-        <div class="relative inline-block text-left" data-more-filters-dropdown>
-          <button class="px-6 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-etsy-orange hover:text-etsy-orange flex items-center transition-all duration-300" data-dropdown-toggle>
-            <span>More Filters</span>
-            <svg class="ml-2 h-4 w-4 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20" data-dropdown-arrow>
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-          </button>
-          
-          <!-- Dropdown menu -->
-          <div class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black/5 z-10" data-dropdown-menu>
-            <div class="py-1" role="menu">
-              <button class="filter-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors" data-filter="sale" role="menuitem">
-                <span class="flex items-center">
-                  <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-                  </svg>
-                  On Sale
-                </span>
-              </button>
-              <button class="filter-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors" data-filter="free-shipping" role="menuitem">
-                <span class="flex items-center">
-                  <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                  </svg>
-                  Free Shipping
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>    <!-- Product grid -->
-    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10" data-products-grid>
-      {% for product in collections[section.settings.collection].products %}        <div class="group relative product-item" 
-             data-product-bestseller="{% if product.metafields.etsy.bestseller.value %}true{% else %}false{% endif %}"
-             data-product-new="{% if product.metafields.etsy.new_arrival.value %}true{% else %}false{% endif %}"
-             data-product-sale="{% if product.compare_at_price > product.price %}true{% else %}false{% endif %}"
-             data-product-free-shipping="{% if product.metafields.etsy.free_shipping.value %}true{% else %}false{% endif %}">
-          <div class="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden bg-white shadow-sm group-hover:shadow-md transition-shadow duration-300">
-            <a href="{{ product.url }}">
-              {% if product.featured_image != blank %}
-                <img 
-                  src="{{ product.featured_image | image_url: width: 350 }}" 
-                  alt="{{ product.featured_image.alt | escape }}" 
-                  width="350" height="262"
-                  class="w-full h-full object-center object-cover group-hover:opacity-95 group-hover:scale-105 transition-all duration-500"
-                  loading="lazy">
-              {% else %}
-                <div class="w-full h-full flex items-center justify-center bg-gray-200">
-                  <span class="text-gray-500">No image</span>
-                </div>
-              {% endif %}
-            </a>
-            
-            <!-- Quick add to cart button -->
-            {% render 'etsy-quick-add-button', product: product %}
-              <!-- Sale badge if on sale -->
-            {% if product.compare_at_price > product.price %}
-              <div class="absolute top-2 left-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-bold uppercase shadow-sm">Sale</div>
-            {% endif %}
-            
-            <!-- New Arrival badge if applicable -->
-            {% if product.metafields.etsy.new_arrival.value %}
-              <div class="absolute top-2 left-2 {% if product.compare_at_price > product.price %}top-12{% endif %} bg-green-600 text-white px-2 py-1 rounded text-xs font-bold uppercase shadow-sm">New</div>
-            {% endif %}
-            
-              <!-- Bestseller badge if applicable -->
-            {% if product.metafields.etsy.bestseller.value %}
-              <div class="absolute top-2 right-2 bg-etsy-orange text-white px-2 py-1 rounded text-xs font-bold uppercase shadow-sm">Bestseller</div>
-            {% endif %}
-          </div>
-          
-          <!-- Product info -->
-          <div class="mt-4 px-1">
-            <div>
-              <!-- Shop name (vendor) -->
-              <p class="text-xs text-gray-500 mb-1">{{ product.vendor }}</p>
-              
-              <h3 class="text-sm font-medium text-gray-700 group-hover:text-etsy-orange transition-colors duration-300">
-                <a href="{{ product.url }}" class="line-clamp-2">
-                  {{ product.title | truncate: 50 }}
-                </a>
-              </h3>
-              
-              <!-- Rating snippet - pulls from product metafields or third-party app -->
-              {% render 'etsy-product-rating', product: product %}
-              
-              <!-- Sale and price -->
-              <div class="mt-2 flex items-center">
-                {% if product.compare_at_price > product.price %}
-                  <span class="text-sm line-through text-gray-400 mr-2">{{ product.compare_at_price | money }}</span>
-                {% endif %}
-                <span class="text-sm font-medium text-gray-900">
-                  {{ product.price | money }}
-                </span>
-              </div>
-                <div class="mt-1 flex flex-wrap items-center text-xs gap-x-3">                <!-- Free shipping if applicable -->
-                {% if product.metafields.etsy.free_shipping.value %}
-                  <p class="text-etsy-orange font-medium">FREE shipping</p>
-                {% endif %}
-                
-                <!-- Number sold or popular item -->
-                {% if product.metafields.etsy.items_sold.value %}
-                  <p class="text-gray-500">{{ product.metafields.etsy.items_sold.value }} sold</p>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-        </div>
-      {% else %}
-        <p class="col-span-full text-center py-16 text-gray-500 text-lg">No products found</p>
-      {% endfor %}
-    </div>
-      <!-- Load more button -->    {% if collections[section.settings.collection].products.size > section.settings.products_per_page %}
-      <div class="text-center mt-12" data-load-more-container>
-        <button 
-          data-load-more-btn
-          data-total-products="{{ collections[section.settings.collection].products.size }}"
-          data-products-per-page="{{ section.settings.products_per_page }}"
-          class="py-3 px-8 border-2 border-etsy-orange text-etsy-orange rounded-full hover:bg-etsy-orange hover:text-white transition-all duration-300 font-medium hover:shadow-md transform hover:scale-105 inline-flex items-center disabled:opacity-50 disabled:transform-none disabled:hover:bg-transparent disabled:hover:text-etsy-orange">
-          <span data-load-more-text>Show more listings</span>
-          <span data-loading-text class="hidden">Loading...</span>
-          <svg data-arrow-icon class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path fill-rule="evenodd" d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-          <svg data-loading-icon class="ml-2 h-5 w-5 animate-spin hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-        </button>
-      </div>
+    </div>    <!-- Product grid with featured products -->
+    {% if section.settings.collection != blank %}
+      {% assign featured_products = collections[section.settings.collection].products %}
+    {% else %}
+      {% assign featured_products = collections.all.products %}
     {% endif %}
-      {% if section.settings.show_view_all_button and section.settings.collection != blank %}
-      <div class="mt-4 text-center">
-        <a href="{{ collections[section.settings.collection].url }}" class="text-etsy-orange hover:underline text-sm font-medium">
-          View all 
-          {% if section.settings.collection == 'frontpage' %}
-            Featured Products
-          {% else %}
-            {{ collections[section.settings.collection].title }}
-          {% endif %}
+    
+    {% if featured_products.size == 0 %}
+      {% assign featured_products = collections.all.products %}
+    {% endif %}    
+    {% assign products_limit = section.settings.products_to_show | default: 12 %}
+    {% if products_limit == blank or products_limit <= 0 %}
+      {% assign products_limit = 12 %}
+    {% endif %}   
+    {% if featured_products.size > 0 %}
+      {% assign limited_products = featured_products %}
+    {% else %}
+      {% assign limited_products = collections.all.products %}
+    {% endif %}
+    
+    {% render 'etsy-product-grid',
+       products: limited_products,
+       products_limit: products_limit,
+       context: 'featured', 
+       show_filters: section.settings.show_filters, 
+       show_sorting: false,
+       grid_classes: 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5',
+       container_id: 'homepage-product-grid' %}
+      <!-- View more button -->
+    {% if section.settings.show_view_more and section.settings.collection != blank %}
+      <div class="text-center mt-12">
+        <a href="{{ collections[section.settings.collection].url }}" 
+           class="inline-flex items-center px-6 py-3 border border-etsy-orange text-etsy-orange hover:bg-etsy-orange hover:text-white font-medium rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+          {{ 'collections.actions.view_more' | t }}
+          <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
         </a>
       </div>
     {% endif %}
+    
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Etsy Product Grid",  "settings": [
+  "name": "Product Grid",
+  "tag": "section",
+  "class": "section-product-grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
     {
       "type": "text",
       "id": "title",
       "label": "Section Title",
-      "default": "Popular right now"
+      "default": "Featured Products"
     },
     {
       "type": "textarea",
       "id": "subtitle",
       "label": "Section Subtitle",
-      "default": "Discover our most popular handmade and vintage items"
+      "default": "Discover unique handcrafted items from independent creators"
     },
     {
       "type": "select",
@@ -196,365 +83,67 @@
       "label": "Background Color",
       "options": [
         {
-          "value": "light",
-          "label": "Light Gray"
-        },
-        {
           "value": "white",
           "label": "White"
+        },
+        {
+          "value": "light",
+          "label": "Light Grey"
         }
       ],
       "default": "white"
     },
     {
+      "type": "header",
+      "content": "Product Settings"
+    },
+    {
       "type": "collection",
       "id": "collection",
-      "label": "Collection to Display"
+      "label": "Collection",
+      "info": "Select a collection to display products from"
     },
     {
       "type": "range",
-      "id": "products_per_page",
+      "id": "products_to_show",
+      "label": "Number of products to show",
       "min": 4,
-      "max": 48,
-      "step": 4,
-      "default": 16,
-      "label": "Products per page"
+      "max": 20,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Filter Settings"
     },
     {
       "type": "checkbox",
-      "id": "show_bestseller_filter",
-      "label": "Show bestseller filter",
+      "id": "show_filters",
+      "label": "Show filter buttons",
       "default": true
     },
     {
-      "type": "checkbox",
-      "id": "show_new_filter",
-      "label": "Show new arrivals filter",
-      "default": true
+      "type": "header",
+      "content": "Button Settings"
     },
     {
       "type": "checkbox",
-      "id": "show_view_all_button",
-      "label": "Show view all button",
+      "id": "show_view_more",
+      "label": "Show 'View More' button",
       "default": true
     }
   ],
   "presets": [
     {
-      "name": "Etsy Product Grid",
-      "category": "Products"
+      "name": "Product Grid",
+      "settings": {
+        "title": "Featured Products",
+        "subtitle": "Discover unique handcrafted items from independent creators",
+        "products_to_show": 12,
+        "show_filters": true,
+        "show_view_more": true
+      }
     }
   ]
 }
 {% endschema %}
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Product Filter Functionality
-  const filterContainer = document.querySelector('[data-product-filters]');
-  const productGrid = document.querySelector('[data-products-grid]');
-  const moreFiltersDropdown = document.querySelector('[data-more-filters-dropdown]');
-  
-  if (!filterContainer || !productGrid) return;
-  
-  const filterButtons = filterContainer.querySelectorAll('.filter-btn');
-  const productItems = productGrid.querySelectorAll('.product-item');
-  const dropdownToggle = moreFiltersDropdown?.querySelector('[data-dropdown-toggle]');
-  const dropdownMenu = moreFiltersDropdown?.querySelector('[data-dropdown-menu]');
-  const dropdownArrow = moreFiltersDropdown?.querySelector('[data-dropdown-arrow]');
-  
-  // Filter functionality
-  function filterProducts(filterType) {
-    let visibleCount = 0;
-    
-    productItems.forEach(item => {
-      let shouldShow = false;
-      
-      switch(filterType) {
-        case 'all':
-          shouldShow = true;
-          break;
-        case 'bestseller':
-          shouldShow = item.getAttribute('data-product-bestseller') === 'true';
-          break;
-        case 'new':
-          shouldShow = item.getAttribute('data-product-new') === 'true';
-          break;
-        case 'sale':
-          shouldShow = item.getAttribute('data-product-sale') === 'true';
-          break;
-        case 'free-shipping':
-          shouldShow = item.getAttribute('data-product-free-shipping') === 'true';
-          break;
-      }
-      
-      if (shouldShow) {
-        item.style.display = 'block';
-        item.classList.add('animate-fadeIn');
-        visibleCount++;
-      } else {
-        item.style.display = 'none';
-        item.classList.remove('animate-fadeIn');
-      }
-    });
-    
-    // Show/hide empty state
-    showEmptyState(visibleCount === 0, filterType);
-  }
-  
-  // Show empty state when no products match filter
-  function showEmptyState(show, filterType) {
-    let emptyState = productGrid.querySelector('.empty-state');
-    
-    if (show && !emptyState) {
-      emptyState = document.createElement('div');
-      emptyState.className = 'empty-state col-span-full text-center py-16';
-      emptyState.innerHTML = `
-        <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">No products found</h3>
-        <p class="text-gray-500">Try adjusting your filters or check back later.</p>
-        <button class="mt-4 px-4 py-2 bg-etsy-orange text-white rounded-full hover:bg-etsy-orange/90 transition-colors" onclick="document.querySelector('[data-filter=\\"all\\"]').click()">
-          Show all products
-        </button>
-      `;
-      productGrid.appendChild(emptyState);
-    } else if (!show && emptyState) {
-      emptyState.remove();
-    }
-  }
-  
-  // Update active button state
-  function updateActiveButton(activeButton) {
-    filterButtons.forEach(btn => {
-      btn.classList.remove('active', 'bg-etsy-orange', 'text-white');
-      btn.classList.add('bg-white', 'border', 'border-gray-300', 'text-gray-700');
-    });
-    
-    activeButton.classList.add('active', 'bg-etsy-orange', 'text-white');
-    activeButton.classList.remove('bg-white', 'border', 'border-gray-300', 'text-gray-700');
-  }
-  
-  // Handle filter button clicks
-  filterButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      const filterType = this.getAttribute('data-filter');
-      
-      // Update active state
-      updateActiveButton(this);
-      
-      // Filter products with animation
-      filterProducts(filterType);
-      
-      // Close dropdown if it's open
-      if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) {
-        toggleDropdown();
-      }
-      
-      // Add subtle animation to grid
-      productGrid.style.opacity = '0.7';
-      setTimeout(() => {
-        productGrid.style.opacity = '1';
-      }, 150);
-    });
-  });
-  
-  // Dropdown functionality
-  function toggleDropdown() {
-    if (!dropdownMenu || !dropdownArrow) return;
-    
-    const isHidden = dropdownMenu.classList.contains('hidden');
-    
-    if (isHidden) {
-      dropdownMenu.classList.remove('hidden');
-      dropdownArrow.style.transform = 'rotate(180deg)';
-    } else {
-      dropdownMenu.classList.add('hidden');
-      dropdownArrow.style.transform = 'rotate(0deg)';
-    }
-  }
-  
-  // Handle dropdown toggle
-  if (dropdownToggle) {
-    dropdownToggle.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      toggleDropdown();
-    });
-  }
-  
-  // Close dropdown when clicking outside
-  document.addEventListener('click', function(e) {
-    if (moreFiltersDropdown && !moreFiltersDropdown.contains(e.target)) {
-      if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) {
-        toggleDropdown();
-      }
-    }
-  });
-    // Add CSS for animations
-  const style = document.createElement('style');
-  style.textContent = `
-    .animate-fadeIn {
-      animation: fadeIn 0.5s ease-in-out;
-    }
-    
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    .product-item {
-      transition: all 0.3s ease;
-    }
-    
-    [data-products-grid] {
-      transition: opacity 0.2s ease;
-    }
-    
-    [data-dropdown-arrow] {
-      transition: transform 0.2s ease;
-    }
-    
-    @keyframes slideInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    .slide-in-up {
-      animation: slideInUp 0.6s ease-out;
-    }
-  `;
-  document.head.appendChild(style);
-
-  // Load More Functionality
-  const loadMoreBtn = document.querySelector('[data-load-more-btn]');
-  const loadMoreContainer = document.querySelector('[data-load-more-container]');
-  
-  if (loadMoreBtn) {
-    let currentPage = 1;
-    const productsPerPage = parseInt(loadMoreBtn.getAttribute('data-products-per-page')) || 12;
-    const totalProducts = parseInt(loadMoreBtn.getAttribute('data-total-products')) || 0;
-    
-    // Initially hide products beyond the first page
-    function hideExtraProducts() {
-      const allProducts = Array.from(productGrid.querySelectorAll('.product-item'));
-      allProducts.forEach((product, index) => {
-        if (index >= productsPerPage) {
-          product.style.display = 'none';
-          product.setAttribute('data-hidden', 'true');
-        }
-      });
-    }
-    
-    // Show products for the next page
-    function showNextPage() {
-      const allProducts = Array.from(productGrid.querySelectorAll('.product-item'));
-      const hiddenProducts = allProducts.filter(product => product.getAttribute('data-hidden') === 'true');
-      
-      // Calculate how many products to show
-      const productsToShow = Math.min(productsPerPage, hiddenProducts.length);
-      
-      // Show products with animation
-      for (let i = 0; i < productsToShow; i++) {
-        const product = hiddenProducts[i];
-        product.style.display = 'block';
-        product.removeAttribute('data-hidden');
-        
-        // Add slide-in animation
-        setTimeout(() => {
-          product.classList.add('slide-in-up');
-        }, i * 100); // Stagger animation
-      }
-      
-      currentPage++;
-      
-      // Update button state
-      updateLoadMoreButton();
-    }
-    
-    function updateLoadMoreButton() {
-      const visibleProducts = productGrid.querySelectorAll('.product-item:not([data-hidden="true"])').length;
-      const remainingProducts = totalProducts - visibleProducts;
-      
-      const loadMoreText = loadMoreBtn.querySelector('[data-load-more-text]');
-      const arrowIcon = loadMoreBtn.querySelector('[data-arrow-icon]');
-      
-      if (remainingProducts <= 0) {
-        loadMoreContainer.style.display = 'none';
-      } else {
-        loadMoreText.textContent = `Show ${Math.min(productsPerPage, remainingProducts)} more listings`;
-      }
-    }
-    
-    // Handle load more button click
-    loadMoreBtn.addEventListener('click', function() {
-      // Show loading state
-      const loadMoreText = this.querySelector('[data-load-more-text]');
-      const loadingText = this.querySelector('[data-loading-text]');
-      const arrowIcon = this.querySelector('[data-arrow-icon]');
-      const loadingIcon = this.querySelector('[data-loading-icon]');
-      
-      // Disable button and show loading
-      this.disabled = true;
-      loadMoreText.classList.add('hidden');
-      arrowIcon.classList.add('hidden');
-      loadingText.classList.remove('hidden');
-      loadingIcon.classList.remove('hidden');
-      
-      // Simulate loading delay (you can remove this for instant loading)
-      setTimeout(() => {
-        showNextPage();
-        
-        // Re-enable button and hide loading
-        this.disabled = false;
-        loadMoreText.classList.remove('hidden');
-        arrowIcon.classList.remove('hidden');
-        loadingText.classList.add('hidden');
-        loadingIcon.classList.add('hidden');
-      }, 800);
-    });
-    
-    // Initialize - hide extra products on page load
-    hideExtraProducts();
-    updateLoadMoreButton();
-    
-    // Re-run initialization when filters change
-    const originalFilterProducts = window.filterProducts || filterProducts;
-    window.filterProducts = function(filterType) {
-      // Call original filter function
-      if (typeof originalFilterProducts === 'function') {
-        originalFilterProducts(filterType);
-      }
-      
-      // Reset pagination after filtering
-      setTimeout(() => {
-        currentPage = 1;
-        hideExtraProducts();
-        updateLoadMoreButton();
-        
-        // Show load more button if there are hidden products
-        const hiddenProducts = productGrid.querySelectorAll('.product-item[data-hidden="true"]').length;
-        if (hiddenProducts > 0) {
-          loadMoreContainer.style.display = 'block';
-        } else {
-          loadMoreContainer.style.display = 'none';
-        }
-      }, 100);
-    };  }
-});
-</script>

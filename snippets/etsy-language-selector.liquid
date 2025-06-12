@@ -1,0 +1,147 @@
+{% comment %}
+  Language Selector Component
+  Usage: {% render 'etsy-language-selector' %}
+  
+  This component provides a dropdown to switch between available languages
+{% endcomment %}
+
+{% assign available_locales = shop.enabled_locales %}
+{% assign current_locale = request.locale %}
+
+{% if available_locales.size > 1 %}
+  <div class="relative inline-block text-left" data-language-selector>
+    <button type="button" 
+            class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-etsy-orange transition-colors duration-200"
+            data-language-toggle
+            aria-expanded="false"
+            aria-haspopup="true">
+      <!-- Current language flag/icon -->
+      <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+      </svg>
+      
+      <!-- Current language name -->
+      <span>{{ current_locale.name }}</span>
+      
+      <!-- Dropdown arrow -->
+      <svg class="ml-2 h-4 w-4 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20" data-language-arrow>
+        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+      </svg>
+    </button>
+
+    <!-- Language dropdown menu -->
+    <div class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black/5 z-50" data-language-menu>
+      <div class="py-1" role="menu" aria-orientation="vertical">        {% for locale in available_locales %}
+          {% if locale.iso_code != current_locale.iso_code %}
+            <a href="{{ request.path | localized_url: locale.iso_code }}" 
+               class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors"
+               role="menuitem">
+              <!-- Language flag/icon -->
+              <svg class="h-4 w-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+              </svg>
+              
+              <!-- Language name -->
+              <span class="flex-1">{{ locale.name }}</span>
+              
+              <!-- Language code -->
+              <span class="text-xs text-gray-500 uppercase">{{ locale.iso_code }}</span>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const languageSelector = document.querySelector('[data-language-selector]');
+    if (!languageSelector) return;
+    
+    const languageToggle = languageSelector.querySelector('[data-language-toggle]');
+    const languageMenu = languageSelector.querySelector('[data-language-menu]');
+    const languageArrow = languageSelector.querySelector('[data-language-arrow]');
+    
+    if (!languageToggle || !languageMenu || !languageArrow) return;
+    
+    // Toggle language dropdown
+    languageToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const isHidden = languageMenu.classList.contains('hidden');
+      
+      if (isHidden) {
+        languageMenu.classList.remove('hidden');
+        languageArrow.style.transform = 'rotate(180deg)';
+        languageToggle.setAttribute('aria-expanded', 'true');
+      } else {
+        languageMenu.classList.add('hidden');
+        languageArrow.style.transform = 'rotate(0deg)';
+        languageToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!languageSelector.contains(e.target)) {
+        languageMenu.classList.add('hidden');
+        languageArrow.style.transform = 'rotate(0deg)';
+        languageToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+    
+    // Handle keyboard navigation
+    languageToggle.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        languageToggle.click();
+      } else if (e.key === 'Escape') {
+        languageMenu.classList.add('hidden');
+        languageArrow.style.transform = 'rotate(0deg)';
+        languageToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+  </script>
+
+  <style>
+  /* Language Selector Styles */
+  [data-language-selector] [data-language-toggle]:hover {
+    transform: translateY(-1px);
+  }
+  
+  [data-language-selector] [data-language-arrow] {
+    transition: transform 0.2s ease;
+  }
+  
+  [data-language-menu] a:hover {
+    transform: translateX(2px);
+  }
+  
+  [data-language-menu] {
+    animation: slideDown 0.2s ease-out;
+    transform-origin: top right;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: scaleY(0.95) translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: scaleY(1) translateY(0);
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    [data-language-menu] {
+      right: 0;
+      left: auto;
+      min-width: 160px;
+    }
+  }
+  </style>
+{% endif %}

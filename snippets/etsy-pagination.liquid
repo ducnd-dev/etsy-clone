@@ -1,0 +1,156 @@
+{% comment %}
+  Etsy-style pagination component
+  Usage: {% render 'etsy-pagination', paginate: paginate, context: 'search' %}
+  
+  Parameters:
+  - paginate: The pagination object
+  - context: Optional context for styling ('search', 'collection', 'blog', etc.)
+{% endcomment %}
+
+{% if paginate.pages > 1 %}
+  <div class="flex justify-center mt-12">
+    <nav class="relative z-0 inline-flex rounded-md shadow-xs -space-x-px" aria-label="Pagination">
+        <!-- Previous button -->
+      {% if paginate.previous %}
+        <a href="{{ paginate.previous.url }}" 
+           class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-etsy-orange hover:border-etsy-orange transition-all duration-200"
+           aria-label="{{ 'pagination.previous' | t }}">
+          <span class="sr-only">{{ 'pagination.previous' | t }}</span>
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+        </a>
+      {% else %}
+        <span class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-gray-50 text-sm font-medium text-gray-300 cursor-not-allowed"
+              aria-label="{{ 'pagination.previous_disabled' | t }}">
+          <span class="sr-only">{{ 'pagination.previous_disabled' | t }}</span>
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+        </span>
+      {% endif %}
+      
+      <!-- Page numbers -->
+      {% for part in paginate.parts %}        {% if part.is_link %}
+          <a href="{{ part.url }}" 
+             class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-etsy-orange hover:border-etsy-orange transition-all duration-200"
+             aria-label="{{ 'pagination.go_to_page' | t: page: part.title }}">
+            {{ part.title }}
+          </a>
+        {% elsif part.title == paginate.current_page %}
+          <span class="relative inline-flex items-center px-4 py-2 border border-etsy-orange bg-etsy-orange text-sm font-medium text-white z-10"
+                aria-current="page"
+                aria-label="{{ 'pagination.current_page' | t: page: part.title }}">
+            {{ part.title }}
+          </span>
+        {% else %}
+          <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500"
+                aria-label="{{ 'pagination.page_number' | t: page: part.title }}">
+            {{ part.title }}
+          </span>
+        {% endif %}
+      {% endfor %}
+        <!-- Next button -->
+      {% if paginate.next %}
+        <a href="{{ paginate.next.url }}" 
+           class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-etsy-orange hover:border-etsy-orange transition-all duration-200"
+           aria-label="{{ 'pagination.next' | t }}">
+          <span class="sr-only">{{ 'pagination.next' | t }}</span>
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+          </svg>
+        </a>
+      {% else %}
+        <span class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-gray-50 text-sm font-medium text-gray-300 cursor-not-allowed"
+              aria-label="{{ 'pagination.next_disabled' | t }}">
+          <span class="sr-only">{{ 'pagination.next_disabled' | t }}</span>
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+          </svg>
+        </span>
+      {% endif %}
+      
+    </nav>
+  </div>
+  <!-- Pagination info -->
+  <div class="flex justify-center mt-4">
+    <p class="text-sm text-gray-500">
+      {% assign start_count = paginate.current_offset | plus: 1 %}
+      {% assign end_count = paginate.current_offset | plus: paginate.page_size %}
+      {% if paginate.current_page == paginate.pages %}
+        {% assign end_count = paginate.items %}
+      {% endif %}
+      
+      {% if context and context != blank %}
+        {% if paginate.items == 1 %}
+          {{ 'pagination.showing_results_context' | t: start: start_count, end: end_count, total: paginate.items, context: context }}
+        {% else %}
+          {{ 'pagination.showing_results_context_plural' | t: start: start_count, end: end_count, total: paginate.items, context: context }}
+        {% endif %}
+      {% else %}
+        {% if paginate.items == 1 %}
+          {{ 'pagination.showing_results' | t: start: start_count, end: end_count, total: paginate.items }}
+        {% else %}
+          {{ 'pagination.showing_results_plural' | t: start: start_count, end: end_count, total: paginate.items }}
+        {% endif %}
+      {% endif %}
+    </p>
+  </div>
+
+  <!-- Enhanced pagination for large result sets -->
+  {% if paginate.pages > 10 %}
+    <div class="flex justify-center mt-2">      <div class="flex items-center space-x-2 text-sm text-gray-500">
+        <span>{{ 'pagination.jump_to_page' | t }}</span>
+        <div class="relative">
+          <select class="appearance-none bg-white border border-gray-300 rounded-md pl-3 pr-8 py-1 text-sm focus:outline-hidden focus:ring-2 focus:ring-etsy-orange focus:border-etsy-orange" 
+                  onchange="window.location.href = this.value" 
+                  aria-label="{{ 'pagination.jump_to_page' | t }}">
+            {% for i in (1..paginate.pages) %}
+              <option value="{{ paginate.parts.first.url | replace: paginate.parts.first.title, i }}" 
+                      {% if i == paginate.current_page %}selected{% endif %}>
+                {{ 'pagination.page_number' | t: page: i }}
+              </option>
+            {% endfor %}
+          </select>
+          <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+            <svg class="h-4 w-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+{% endif %}
+
+<style>
+/* Enhanced pagination styles */
+.pagination-container nav a:hover,
+.pagination-container nav button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-container nav span[aria-current="page"] {
+  box-shadow: 0 2px 4px rgba(241, 100, 30, 0.2);
+}
+
+@media (max-width: 640px) {
+  .pagination-container nav {
+    font-size: 0.875rem;
+  }
+  
+  .pagination-container nav a,
+  .pagination-container nav span {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .pagination-container nav a:first-child,
+  .pagination-container nav span:first-child,
+  .pagination-container nav a:last-child,
+  .pagination-container nav span:last-child {
+    padding: 0.5rem;
+  }
+}
+</style>
