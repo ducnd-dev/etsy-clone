@@ -73,5 +73,5 @@ window.changeMainImage = function(thumbnailButton, imageUrl) {
   thumbnailButton.classList.add('border-etsy-orange');
 };
 
-// Export for CommonJS
-module.exports = ProductGalleryModule;
+// Export for ES6 modules
+export default ProductGalleryModule;

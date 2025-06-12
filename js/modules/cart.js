@@ -10,6 +10,8 @@ const CartModule = {
     // Cart drawer toggle
     const cartButtons = document.querySelectorAll('[data-cart-toggle]');
     cartButtons.forEach(button => {
+        console.log('Cart button initialized');
+        
       button.addEventListener('click', this.toggleCartDrawer.bind(this));
     });
 
@@ -133,5 +135,4 @@ const CartModule = {
   }
 };
 
-// Export for CommonJS
-module.exports = CartModule;
+export default CartModule;

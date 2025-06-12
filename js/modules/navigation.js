@@ -142,4 +142,4 @@ const NavigationModule = {
 };
 
 // Export for CommonJS
-module.exports = NavigationModule;
+export default NavigationModule;

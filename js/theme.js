@@ -3,11 +3,11 @@
  * Modular architecture with build system integration
  */
 
-// Import modules using CommonJS for webpack compatibility
-const CartModule = require('./modules/cart.js');
-const ProductGalleryModule = require('./modules/product-gallery.js');
-const NavigationModule = require('./modules/navigation.js');
-const AnimationModule = require('./modules/animations.js');
+// Import modules using ES6 imports for better webpack compatibility
+import CartModule from './modules/cart.js';
+import ProductGalleryModule from './modules/product-gallery.js';
+import NavigationModule from './modules/navigation.js';
+import AnimationModule from './modules/animations.js';
 
 /**
  * EtsyTheme - Main theme controller
@@ -107,6 +107,8 @@ const EtsyTheme = {
     
     cartBtns.forEach(btn => {
       btn.addEventListener('click', () => {
+        console.log('Cart button clicked');
+        
         if (cartDrawer) {
           cartDrawer.classList.toggle('hidden');
         }
@@ -154,4 +156,4 @@ document.addEventListener('DOMContentLoaded', () => {
 window.EtsyTheme = EtsyTheme;
 
 // Export for webpack
-module.exports = EtsyTheme;
+export default EtsyTheme;

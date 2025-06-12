@@ -105,4 +105,4 @@ const AnimationModule = {
 };
 
 // Export for CommonJS
-module.exports = AnimationModule;
+export default AnimationModule;

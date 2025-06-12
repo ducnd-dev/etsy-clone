@@ -19,6 +19,10 @@ export default (env, argv) => {
       filename: '[name].min.js',
       clean: false // Don't clean assets folder as it contains other files
     },
+    resolve: {
+      extensions: ['.js'],
+      modules: [path.resolve(__dirname, 'js'), 'node_modules']
+    },
     module: {
       rules: [
         {
