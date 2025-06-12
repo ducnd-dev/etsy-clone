@@ -88,7 +88,7 @@
           {% for line_item in order.line_items %}
             <div class="flex items-start space-x-4 p-4 border border-gray-100 rounded-xl hover:bg-gray-50 transition-colors">
               <!-- Product Image -->
-              <div class="w-16 h-16 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+              <div class="w-16 h-16 rounded-lg overflow-hidden bg-gray-100 shrink-0">
                 {% if line_item.image %}
                   <img src="{{ line_item.image | image_url: width: 80 }}" 
                        alt="{{ line_item.title | escape }}"

@@ -13,7 +13,7 @@
     
     <div class="mb-10 flex flex-col md:flex-row justify-center items-center">      <!-- Filter tabs -->
       <div class="inline-flex flex-wrap justify-center gap-3 bg-white py-2 px-4 rounded-full shadow-sm" data-product-filters>
-        <button class="filter-btn active px-6 py-2 rounded-full text-sm font-medium bg-etsy-orange text-white hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105" data-filter="all">
+        <button class="filter-btn active px-6 py-2 rounded-full text-sm font-medium bg-etsy-orange text-white hover:bg-etsy-orange/90 transition-all duration-300 transform hover:scale-105" data-filter="all">
           All Items
         </button>
         {% if section.settings.show_bestseller_filter %}
@@ -37,7 +37,7 @@
           </button>
           
           <!-- Dropdown menu -->
-          <div class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10" data-dropdown-menu>
+          <div class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black/5 z-10" data-dropdown-menu>
             <div class="py-1" role="menu">
               <button class="filter-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors" data-filter="sale" role="menuitem">
                 <span class="flex items-center">
@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </svg>
         <h3 class="text-lg font-medium text-gray-900 mb-2">No products found</h3>
         <p class="text-gray-500">Try adjusting your filters or check back later.</p>
-        <button class="mt-4 px-4 py-2 bg-etsy-orange text-white rounded-full hover:bg-opacity-90 transition-colors" onclick="document.querySelector('[data-filter=\\"all\\"]').click()">
+        <button class="mt-4 px-4 py-2 bg-etsy-orange text-white rounded-full hover:bg-etsy-orange/90 transition-colors" onclick="document.querySelector('[data-filter=\\"all\\"]').click()">
           Show all products
         </button>
       `;

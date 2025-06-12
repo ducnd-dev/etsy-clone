@@ -1,5 +1,20 @@
 {% comment %}
-  Reusable product card snippet for Etsy-style theme
+  Reusable    <!-- Sale badge if on sale -->
+    {% if product.compare_at_price > product.price %}
+      <div class="absolute top-2 left-2 bg-red-600 text-white px-2 py-1 rounded-sm text-xs font-bold uppercase shadow-xs">Sale</div>
+    {% endif %}
+    
+    <!-- Bestseller badge if applicable -->
+    {% if product.tags contains 'bestseller' %}
+      <div class="absolute top-2 right-2 bg-etsy-orange text-white px-2 py-1 rounded-sm text-xs font-bold uppercase shadow-xs">Bestseller</div>
+    {% endif %}
+    
+    <!-- New arrival badge if created in last 30 days -->
+    {% assign thirty_days_ago = 'now' | date: '%s' | minus: 2592000 %}
+    {% assign product_created = product.created_at | date: '%s' %}
+    {% if product_created > thirty_days_ago %}
+      <div class="absolute top-2 right-2 bg-green-600 text-white px-2 py-1 rounded-sm text-xs font-bold uppercase shadow-xs">New</div>
+    {% endif %}ippet for Etsy-style theme
   Usage: {% render 'product-card', product: product %}
 {% endcomment %}
 

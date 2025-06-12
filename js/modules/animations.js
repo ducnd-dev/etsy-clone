@@ -66,7 +66,7 @@ const AnimationModule = {
     
     toast.innerHTML = `
       <div class="flex">
-        <div class="flex-grow">
+        <div class="grow">
           <p class="text-gray-800">${message}</p>
         </div>
         <button class="ml-4 text-gray-400 hover:text-gray-600" onclick="this.parentElement.parentElement.remove()">

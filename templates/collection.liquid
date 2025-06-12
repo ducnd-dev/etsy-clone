@@ -15,7 +15,7 @@
   <div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-200 pb-4">
     <!-- Filter buttons -->
     <div class="flex flex-wrap gap-2 mb-4 md:mb-0" data-collection-filters>
-      <button class="filter-btn active px-4 py-2 rounded-full text-sm font-medium bg-etsy-orange text-white hover:bg-opacity-90" data-filter="all">
+      <button class="filter-btn active px-4 py-2 rounded-full text-sm font-medium bg-etsy-orange text-white hover:bg-etsy-orange/90" data-filter="all">
         All Items ({{ collection.products_count }})
       </button>
       
@@ -37,7 +37,7 @@
         </button>
         
         <!-- Filter dropdown menu -->
-        <div class="hidden absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10" data-filter-dropdown-menu>
+        <div class="hidden absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black/5 z-10" data-filter-dropdown-menu>
           <div class="py-1" role="menu">
             <button class="filter-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors" data-filter="sale" role="menuitem">
               <span class="flex items-center">
@@ -70,7 +70,7 @@
       </button>
       
       <!-- Sort dropdown menu -->
-      <div class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10" data-sort-dropdown-menu>
+      <div class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black/5 z-10" data-sort-dropdown-menu>
         <div class="py-1" role="menu">
           <button class="sort-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-etsy-orange transition-colors" data-sort="featured" role="menuitem">
             Featured
@@ -178,7 +178,7 @@
               {{ part.title }}
             </a>
           {% elsif part.title == paginate.current_page %}
-            <span class="relative inline-flex items-center px-4 py-2 border border-etsy-orange bg-etsy-orange bg-opacity-10 text-sm font-medium text-white">
+            <span class="relative inline-flex items-center px-4 py-2 border border-etsy-orange bg-etsy-orange/10 text-sm font-medium text-white">
               {{ part.title }}
             </span>
           {% else %}
@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </svg>
         <h3 class="text-lg font-medium text-gray-900 mb-2">No products found</h3>
         <p class="text-gray-500">Try adjusting your filters or check back later.</p>
-        <button class="mt-4 px-4 py-2 bg-etsy-orange text-white rounded-full hover:bg-opacity-90 transition-colors" onclick="document.querySelector('[data-filter=\\"all\\"]').click()">
+        <button class="mt-4 px-4 py-2 bg-etsy-orange text-white rounded-full hover:bg-etsy-orange/90 transition-colors" onclick="document.querySelector('[data-filter=\\"all\\"]').click()">
           Show all products
         </button>
       `;

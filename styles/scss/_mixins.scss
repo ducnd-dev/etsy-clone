@@ -1,5 +1,3 @@
-// Mixins for Etsy Theme
-
 // Media query mixins
 @mixin sm {
   @media (min-width: #{$breakpoint-sm}) {

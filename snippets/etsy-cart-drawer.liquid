@@ -254,10 +254,9 @@
           headerCartCount.classList.remove('animate-pulse', 'bg-white', 'text-orange-600');
         }, 1000);
       }
-      
-      // Show notification for added product
+        // Show notification for added product
       const notification = document.createElement('div');
-      notification.className = 'fixed top-4 right-4 bg-green-50 border-l-4 border-green-500 text-green-700 p-4 shadow-md rounded z-50 transform translate-x-full transition-transform duration-300';
+      notification.className = 'fixed top-4 right-4 bg-green-50 border-l-4 border-green-500 text-green-700 p-4 shadow-sm rounded-sm z-50 transform translate-x-full transition-transform duration-300';
       notification.innerHTML = `
         <div class="flex items-center">
           <div class="py-1">
@@ -344,10 +343,9 @@
           // Reset button state on error
           submitButton.innerHTML = originalButtonText;
           submitButton.disabled = false;
-          
-          // Show error notification
+            // Show error notification
           const errorNotification = document.createElement('div');
-          errorNotification.className = 'fixed top-4 right-4 bg-red-50 border-l-4 border-red-500 text-red-700 p-4 shadow-md rounded z-50';
+          errorNotification.className = 'fixed top-4 right-4 bg-red-50 border-l-4 border-red-500 text-red-700 p-4 shadow-sm rounded-sm z-50';
           errorNotification.innerHTML = `
             <div class="flex">
               <div class="py-1">

@@ -8,7 +8,7 @@
       <h1 class="text-4xl md:text-5xl font-extrabold {% if section.settings.hero_image %}text-white{% else %}text-etsy-dark{% endif %} sm:text-4xl mb-4">
         {{ section.settings.heading }}
       </h1>
-      <p class="mt-3 max-w-2xl mx-auto text-xl {% if section.settings.hero_image %}text-white text-opacity-90{% else %}text-gray-500{% endif %} sm:mt-4">
+      <p class="mt-3 max-w-2xl mx-auto text-xl {% if section.settings.hero_image %}text-white/90{% else %}text-gray-500{% endif %} sm:mt-4">
         {{ section.settings.subheading }}
       </p>
       
@@ -20,7 +20,7 @@
                   name="q" 
                   placeholder="{{ section.settings.search_placeholder }}" 
                   class="w-full pl-5 pr-24 py-4 border-2 border-white rounded-full focus:outline-none focus:ring-2 focus:ring-etsy-orange focus:border-transparent text-lg placeholder:text-white">
-            <button type="submit" class="absolute inset-y-0 right-0 px-6 flex items-center bg-etsy-orange text-white rounded-r-full hover:bg-opacity-90 transition-all duration-200">
+            <button type="submit" class="absolute inset-y-0 right-0 px-6 flex items-center bg-etsy-orange text-white rounded-r-full hover:bg-etsy-orange/90 transition-all duration-200">
               <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
               </svg>

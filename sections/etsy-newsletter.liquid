@@ -15,7 +15,7 @@
       {% endif %}
       
       {% if section.settings.description != blank %}
-        <p class="text-lg {% if section.settings.background_style == 'image' or section.settings.background_color == 'etsy-orange' %}text-white text-opacity-80{% else %}text-gray-500{% endif %} mb-8">
+        <p class="text-lg {% if section.settings.background_style == 'image' or section.settings.background_color == 'etsy-orange' %}text-white/80{% else %}text-gray-500{% endif %} mb-8">
           {{ section.settings.description }}
         </p>
       {% endif %}
@@ -29,7 +29,7 @@
               required
               aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}"
               class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-etsy-orange focus:border-transparent">
-        <button type="submit" name="commit" class="px-8 py-3 bg-etsy-orange text-white font-medium rounded-full hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
+        <button type="submit" name="commit" class="px-8 py-3 bg-etsy-orange text-white font-medium rounded-full hover:bg-etsy-orange/90 transition-all duration-300 transform hover:scale-105">
           {{ section.settings.button_text }}
         </button>
       </form>

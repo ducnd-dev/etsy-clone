@@ -29,10 +29,9 @@ const ProductGalleryModule = {
   changeMainImage(mainImage, clickedThumbnail, allThumbnails) {
     const newSrc = clickedThumbnail.getAttribute('data-src') || clickedThumbnail.querySelector('img').src;
     const newAlt = clickedThumbnail.getAttribute('alt') || clickedThumbnail.querySelector('img').alt || '';
-    
-    // Update active state on thumbnails
+      // Update active state on thumbnails
     allThumbnails.forEach(thumbnail => {
-      thumbnail.classList.remove('border-etsy-orange', 'ring-2', 'ring-etsy-orange');
+      thumbnail.classList.remove('border-etsy-orange', 'ring-3', 'ring-etsy-orange');
       thumbnail.classList.add('border-transparent');
     });
     
