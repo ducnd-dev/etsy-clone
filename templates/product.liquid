@@ -12,11 +12,12 @@
              class="w-full h-full object-center object-cover rounded-lg" 
              id="mainProductImage">
       </div>
-      
-      {% if product.images.size > 1 %}
+        {% if product.images.size > 1 %}
         <div class="grid grid-cols-5 gap-2">
           {% for image in product.images %}
-            <button class="aspect-w-1 aspect-h-1 border-2 {% if forloop.first %}border-etsy-orange{% else %}border-transparent{% endif %} rounded-md overflow-hidden focus:outline-none"                   onclick="document.getElementById('mainProductImage').src = '{{ image | image_url: width: 1000 }}'">
+            <button class="aspect-w-1 aspect-h-1 border-2 {% if forloop.first %}border-etsy-orange{% else %}border-transparent{% endif %} rounded-md overflow-hidden focus:outline-none thumbnail-btn"
+                    data-image-url="{{ image | image_url: width: 1000 }}"
+                    onclick="changeMainImage(this, '{{ image | image_url: width: 1000 }}')">
               <img src="{{ image | image_url: width: 150 }}"
                    width="150"
                    height="150"
@@ -202,6 +203,27 @@
             </div>
           </div>
         {% endif %}
-      {% endfor %}
-    </div>  </div>
+      {% endfor %}    </div>  </div>
 </div>
+
+<script>
+  // Product gallery functionality
+  function changeMainImage(thumbnailButton, imageUrl) {
+    // Update main image
+    const mainImage = document.getElementById('mainProductImage');
+    if (mainImage) {
+      mainImage.src = imageUrl;
+    }
+    
+    // Update active state on thumbnails
+    const thumbnails = document.querySelectorAll('.thumbnail-btn');
+    thumbnails.forEach(thumb => {
+      thumb.classList.remove('border-etsy-orange');
+      thumb.classList.add('border-transparent');
+    });
+    
+    // Add active state to clicked thumbnail
+    thumbnailButton.classList.remove('border-transparent');
+    thumbnailButton.classList.add('border-etsy-orange');
+  }
+</script>
